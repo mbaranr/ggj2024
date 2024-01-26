@@ -5,13 +5,22 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
+import com.mygdx.game.Tools.ResourceManager;
+
 import java.util.LinkedList;
 
 public class Buffoon extends B2Sprite {
 
     LinkedList<Item> items;
+    private Constants.ASTATE currAState;     // Current animation state
+    private Constants.ASTATE prevAState;     // Previous animation state
 
-    public Buffoon(int x, int y, World world) {
+    private ResourceManager resourceManager;
+
+    public Buffoon(int x, int y, World world, ResourceManager resourceManager) {
+
+        this.resourceManager = resourceManager;
+
         BodyDef bdef = new BodyDef();
         bdef.position.set(x / Constants.PPM, y / Constants.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -29,6 +38,19 @@ public class Buffoon extends B2Sprite {
     }
 
     public void loadSprites() {
+        resourceManager.loadTexture("player_run.png", "player_run");
+    }
+
+    public void handleAnimation() {
+
+        switch (currAState) {
+            case RUN:
+
+                break;
+        }
+    }
+
+    public void update(float delta) {
 
     }
 
