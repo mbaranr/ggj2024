@@ -14,7 +14,7 @@ public class Buffoon extends B2Sprite {
     LinkedList<Item> items;
     private Constants.ASTATE currAState;     // Current animation state
     private Constants.ASTATE prevAState;     // Previous animation state
-    private ResourceManager resourceManager;
+    private final ResourceManager resourceManager;
 
     public Buffoon(int x, int y, World world, ResourceManager resourceManager) {
 
@@ -49,36 +49,77 @@ public class Buffoon extends B2Sprite {
     public void handleAnimation() {
         switch (currAState) {
             case RUN_UP:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("player_run_up"), 32, 32)[0], 1/14f, false, 1.25f);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_up"), 32, 32)[0], 1/14f, false, 1.25f);
                 break;
             case RUN_DOWN:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("player_down"), 32, 32)[0], 1/14f, false, 1.25f);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_down"), 32, 32)[0], 1/14f, false, 1.25f);
+                break;
+            case RUN_LEFT:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_left"), 32, 32)[0], 1/14f, false, 1.25f);
+                break;
+            case RUN_RIGHT:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_right"), 32, 32)[0], 1/14f, false, 1.25f);
+                break;
+            case IDLE_DOWN:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_idle_down"), 32, 32)[0], 1/14f, false, 1.25f);
+                break;
+            case IDLE_UP:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_idle_up"), 32, 32)[0], 1/14f, false, 1.25f);
+                break;
+            case IDLE_LEFT:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_idle_left"), 32, 32)[0], 1/14f, false, 1.25f);
+                break;
+            case IDLE_RIGHT:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_idle_right"), 32, 32)[0], 1/14f, false, 1.25f);
                 break;
         }
     }
 
     public void update(float delta) {
-        if (currAState != prevAState) handleAnimation();
+        if (currAState != prevAState) {
+            prevAState = currAState;
+            handleAnimation();
+        }
         animation.update(delta);
     }
 
     public void moveUp() {
+        currAState = Constants.ASTATE.RUN_UP;
         b2body.setLinearVelocity(b2body.getLinearVelocity().x, Constants.MAX_SPEED);
     }
 
     public void moveDown() {
+        currAState = Constants.ASTATE.RUN_DOWN;
         b2body.setLinearVelocity(b2body.getLinearVelocity().x, -Constants.MAX_SPEED);
     }
 
     public void moveLeft() {
+        currAState = Constants.ASTATE.RUN_LEFT;
         b2body.setLinearVelocity(-Constants.MAX_SPEED, b2body.getLinearVelocity().y);
     }
 
     public void moveRight() {
+        currAState = Constants.ASTATE.RUN_RIGHT;
         b2body.setLinearVelocity(Constants.MAX_SPEED, b2body.getLinearVelocity().y);
     }
 
     public void stop() {
+        switch (currAState) {
+            case RUN_UP:
+                currAState = Constants.ASTATE.IDLE_UP;
+                break;
+            case RUN_DOWN:
+                currAState = Constants.ASTATE.IDLE_DOWN;
+                break;
+            case RUN_LEFT:
+                currAState = Constants.ASTATE.IDLE_LEFT;
+                break;
+            case RUN_RIGHT:
+                currAState = Constants.ASTATE.IDLE_RIGHT;
+                break;
+            default:
+                break;
+        }
         b2body.setLinearVelocity(0, 0);
     }
 
