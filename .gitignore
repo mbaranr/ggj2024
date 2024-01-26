@@ -3,3 +3,7 @@
 .gradle
 .gradle/8.5/executionHistory/
 .gradle/8.5/executionHistory/executionHistory.lock
+
+# Gradle build
+.gradle
+/build/
