@@ -13,7 +13,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Game.LOD;
+import com.mygdx.game.Handlers.B2WorldHandler;
+import com.mygdx.game.Logic.MyContactListener;
+import com.mygdx.game.Logic.MyTimer;
+import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.Tools.Constants;
+import com.mygdx.game.Tools.ResourceManager;
 
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,19 +31,17 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
     private final World world;    // World holding all the physical objects
     private final Box2DDebugRenderer b2dr;
-    private final MyInputProcessor inputProcessor;
-    private final EntityHandler entityHandler;
-
-    public GameScreen(LOD game, String stage, MyResourceManager resourceManager, MyInputProcessor inputProcessor) {
+    private final Buffoon buffoon;
+    public GameScreen(LOD game, String stage, ResourceManager resourceManager) {
 
         this.game = game;
-        this.inputProcessor = inputProcessor;
 
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
 
         // Creating tiled map
         TmxMapLoader mapLoader = new TmxMapLoader();
         TiledMap map = null;
+
         if (stage.equals("everlush")) map = mapLoader.load("everlush.tmx");
         else if (stage.equals("verdant_hollow")) map = mapLoader.load("verdant_hollow.tmx");
         else map = mapLoader.load("grim_factory.tmx");
@@ -50,29 +53,29 @@ public class GameScreen implements Screen {
         gameCam.position.set(2, 77, 0);
 
         AtomicInteger eidAllocator = new AtomicInteger();
-        shapeDrawer = new ShapeDrawer(gameCam);
         timer = new MyTimer();
-        entityHandler = new EntityHandler();
-        entityHandler.initializeHandler(new Mage(100, 7900, world, eidAllocator.getAndIncrement(), timer, resourceManager, 3, shapeDrawer, entityHandler));
-        entityHandler.addEntity(new BaseGoblin(100, 7900, world, eidAllocator.getAndIncrement(), timer, resourceManager, shapeDrawer, entityHandler));
 
-        inputProcessor.setGameVariables(entityHandler, world);
-        world.setContactListener(new MyContactListener(entityHandler));
+        buffoon = new Buffoon();
+
+        world.setContactListener(new MyContactListener());
         b2dr = new Box2DDebugRenderer();
         new B2WorldHandler(world, map, resourceManager, timer, eidAllocator);     //Creating world
+
+
     }
 
     @Override
     public void show() {  }
 
     public void update(float delta) {
-        entityHandler.update(delta);
         world.step(1/60f, 6, 2);
-        entityHandler.handleEntities();
         gameCam.position.set(entityHandler.getCurrCharacter().getPosition().x, entityHandler.getCurrCharacter().getPosition().y + 40 / Constants.PPM, 0);
         gameCam.update();
         timer.update(delta);
-        inputProcessor.update();
+    }
+
+    public void handleInput() {
+
     }
 
     @Override

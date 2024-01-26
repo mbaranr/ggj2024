@@ -1,4 +1,6 @@
 package com.mygdx.game.RoleCast;
 
-public class Buffoon {
+import com.mygdx.game.Sprites.B2Sprite;
+
+public class Buffoon extends B2Sprite {
 }

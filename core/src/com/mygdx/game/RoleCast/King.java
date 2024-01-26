@@ -1,4 +1,7 @@
 package com.mygdx.game.RoleCast;
 
-public class King {
+import com.mygdx.game.Sprites.B2Sprite;
+
+public class King extends B2Sprite {
+
 }
