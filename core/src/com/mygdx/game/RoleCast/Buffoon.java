@@ -19,8 +19,8 @@ public class Buffoon extends B2Sprite {
     public Buffoon(int x, int y, World world, ResourceManager resourceManager) {
 
         this.resourceManager = resourceManager;
-        currAState = Constants.ASTATE.RUN;
-        prevAState = Constants.ASTATE.RUN;
+        currAState = Constants.ASTATE.RUN_UP;
+        prevAState = Constants.ASTATE.RUN_UP;
 
         loadSprites();
 
@@ -38,7 +38,7 @@ public class Buffoon extends B2Sprite {
         polygonShape.setAsBox(8 / Constants.PPM, 16 / Constants.PPM, new Vector2(0, 0), 0);
         fdef.shape = polygonShape;
         fdef.friction = 0;
-        fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE;
+        fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM;
         b2body.createFixture(fdef).setUserData("buffoon");
     }
 
@@ -48,7 +48,7 @@ public class Buffoon extends B2Sprite {
 
     public void handleAnimation() {
         switch (currAState) {
-            case RUN:
+            case RUN_UP:
                 setAnimation(TextureRegion.split(resourceManager.getTexture("player_run"), 32, 32)[0], 1/14f, false, 1.25f);
                 break;
         }

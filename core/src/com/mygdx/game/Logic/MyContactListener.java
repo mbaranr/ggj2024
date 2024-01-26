@@ -12,12 +12,18 @@ public class MyContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-
+        handleFixtures(contact);
+        if ( fa.getUserData().equals("item") || fb.getUserData().equals("item")) {
+            System.out.println("here");
+        }
     }
 
     @Override
     public void endContact(Contact contact) {
-
+        handleFixtures(contact);
+        if ( fa.getUserData().equals("item") || fb.getUserData().equals("item")) {
+            System.out.println("here");
+        }
     }
 
     public boolean handleFixtures(Contact contact) {
