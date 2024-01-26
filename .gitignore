@@ -1,2 +1,5 @@
 
 .idea/uiDesigner.xml
+.gradle
+.gradle/8.5/executionHistory/
+.gradle/8.5/executionHistory/executionHistory.lock

@@ -1,10 +1,8 @@
 package com.mygdx.game.Sprites;
-
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 // Custom animation class
 public class Animation {
-
     private TextureRegion[] frames;
     private float time;
     private float delay;
