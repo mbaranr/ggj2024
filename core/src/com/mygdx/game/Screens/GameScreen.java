@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
         AtomicInteger eidAllocator = new AtomicInteger();
         timer = new MyTimer();
 
-        buffoon = new Buffoon(5, 5, world);
+        buffoon = new Buffoon(0, 0, world);
 
         world.setContactListener(new MyContactListener());
         b2dr = new Box2DDebugRenderer();

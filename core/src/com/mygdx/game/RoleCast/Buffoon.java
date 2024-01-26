@@ -28,6 +28,10 @@ public class Buffoon extends B2Sprite {
         b2body.createFixture(fdef).setUserData("buffoon");
     }
 
+    public void loadSprites() {
+
+    }
+
     public void moveUp() {
         b2body.setLinearVelocity(b2body.getLinearVelocity().x, Constants.MAX_SPEED);
     }
