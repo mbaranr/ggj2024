@@ -4,4 +4,10 @@ import com.mygdx.game.Sprites.B2Sprite;
 
 public class King extends B2Sprite {
 
+    private int laughMeter;
+
+    public King () {
+
+    }
+
 }
