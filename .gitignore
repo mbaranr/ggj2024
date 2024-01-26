@@ -117,3 +117,4 @@ Thumbs.db
 *.bin
 *.class
 *.jar
+*.lock
