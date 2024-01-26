@@ -7,3 +7,4 @@
 # Gradle build
 .gradle
 /build/
+*.class
