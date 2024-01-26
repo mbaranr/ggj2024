@@ -7,7 +7,7 @@ public class Constants {
 
     // Animation state flag
     public enum ASTATE {
-        RUN_UP, RUN_DOWN, RUN_LEFT, RUN_RIGHT
+        RUN_UP, RUN_DOWN, RUN_LEFT, RUN_RIGHT, IDLE_DOWN, IDLE_UP, IDLE_LEFT, IDLE_RIGHT
     }
 
     // Bits for collision masking

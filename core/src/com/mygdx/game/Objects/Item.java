@@ -1,13 +1,9 @@
 package com.mygdx.game.Objects;
 
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
-import com.mygdx.game.Tools.ResourceManager;
 
 public class Item extends B2Sprite {
 

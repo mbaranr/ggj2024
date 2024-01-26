@@ -51,6 +51,9 @@ public class Buffoon extends B2Sprite {
             case RUN_UP:
                 setAnimation(TextureRegion.split(resourceManager.getTexture("player_run"), 32, 32)[0], 1/14f, false, 1.25f);
                 break;
+            case RUN_DOWN:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("player_run"), 32, 32)[0], 1/14f, false, 1.25f);
+                break;
         }
     }
 
