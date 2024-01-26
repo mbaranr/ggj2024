@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -68,6 +69,7 @@ public class GameScreen implements Screen {
         gameCam.position.set(buffoon.getPosition().x, buffoon.getPosition().y, 0);
         gameCam.update();
         timer.update(delta);
+        buffoon.update(delta);
     }
 
     public void handleInput() {
@@ -102,6 +104,8 @@ public class GameScreen implements Screen {
 
         renderer.setView(gameCam);
         renderer.render();
+
+        buffoon.render(game.batch);
 
         b2dr.render(world, gameCam.combined);
         game.batch.setProjectionMatrix(gameCam.combined);

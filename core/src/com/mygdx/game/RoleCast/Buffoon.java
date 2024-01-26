@@ -1,12 +1,12 @@
 package com.mygdx.game.RoleCast;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
-
 import java.util.LinkedList;
 
 public class Buffoon extends B2Sprite {
@@ -14,12 +14,17 @@ public class Buffoon extends B2Sprite {
     LinkedList<Item> items;
     private Constants.ASTATE currAState;     // Current animation state
     private Constants.ASTATE prevAState;     // Previous animation state
-
     private ResourceManager resourceManager;
 
     public Buffoon(int x, int y, World world, ResourceManager resourceManager) {
 
         this.resourceManager = resourceManager;
+        currAState = Constants.ASTATE.RUN;
+        prevAState = Constants.ASTATE.RUN;
+
+        loadSprites();
+
+        setAnimation(TextureRegion.split(resourceManager.getTexture("player_run"), 32, 32)[0], 1/14f, false, 1.25f);
 
         BodyDef bdef = new BodyDef();
         bdef.position.set(x / Constants.PPM, y / Constants.PPM);
@@ -42,16 +47,16 @@ public class Buffoon extends B2Sprite {
     }
 
     public void handleAnimation() {
-
         switch (currAState) {
             case RUN:
-
+                setAnimation(TextureRegion.split(resourceManager.getTexture("player_run"), 32, 32)[0], 1/14f, false, 1.25f);
                 break;
         }
     }
 
     public void update(float delta) {
-
+        if (currAState != prevAState) handleAnimation();
+        animation.update(delta);
     }
 
     public void moveUp() {
