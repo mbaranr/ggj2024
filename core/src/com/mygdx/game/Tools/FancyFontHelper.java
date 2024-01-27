@@ -14,7 +14,7 @@ public class FancyFontHelper {
     private FreeTypeFontGenerator fontGenerator;
 
     private FancyFontHelper() {
-        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("BaksoSapi.otf"));
+        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/pixelmix_bold.ttf"));
     }
 
     public static FancyFontHelper getInstance() {

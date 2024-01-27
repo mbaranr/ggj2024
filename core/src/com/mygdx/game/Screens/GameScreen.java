@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
-        b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator);     //Creating world
+        b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, game.batch);     //Creating world
     }
 
     @Override
@@ -132,6 +132,7 @@ public class GameScreen implements Screen {
         renderer.render();
 
         buffoon.render(game.batch);
+        b2wh.render(game.batch);
 
         b2dr.render(world, gameCam.combined);
         game.batch.setProjectionMatrix(gameCam.combined);
