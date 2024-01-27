@@ -62,7 +62,7 @@ public class CityScreen implements Screen {
         Item banana = new Item(0, 2, world, 0.1f, null, null, null, null, 1);
         itemList.add(banana);
 
-        buffoon = new Buffoon(0, 0, world, resourceManager);
+        buffoon = new Buffoon(6000, 7500, world, resourceManager);
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
