@@ -28,7 +28,7 @@ public class LOD extends Game {
 		castleScreen = new CastleScreen(this, resourceManager, HUD, timer);
 		churchScreen = new ChurchScreen(this, resourceManager, HUD, timer);
 
-		setScreen(churchScreen);
+		setScreen(cityScreen);
 	}
 
 	public void changeScreen(String tag) {
