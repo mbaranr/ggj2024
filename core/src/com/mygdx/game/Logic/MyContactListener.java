@@ -6,29 +6,39 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Objects.Item;
+import com.mygdx.game.RoleCast.Buffoon;
 
 public class MyContactListener implements ContactListener {
 
     private Fixture fa;
     private Fixture fb;
     private ArrayList<Item> itemList;
+    private Buffoon buffoon;
 
-    public MyContactListener(ArrayList<Item> itemList) {
+    public MyContactListener(ArrayList<Item> itemList, Buffoon buffoon) {
         this.itemList = itemList;
+        this.buffoon = buffoon;
     }
 
     @Override
     public void beginContact(Contact contact) {
         handleFixtures(contact);
 
-        for(Item item : itemList) {
+        if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
+            for (Item item : itemList) {
 
-            if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
-                item.setGrabbable(true);
-                System.out.println("Player on top of Item");
+                if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
+                    buffoon.addItem(item);
+                    item.setGrabbable(true);
+                    System.out.println("Player on top of Item");
+                }
+
             }
-
+        } else if (fa.getUserData().equals("transparency") || fa.getUserData().equals("transparency")) {
+            buffoon.setCurrAlpha(0.5f);
         }
+
+
     }
 
     @Override
