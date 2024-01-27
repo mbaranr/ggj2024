@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -21,7 +20,7 @@ import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.RoleCast.NPC;
-import com.mygdx.game.Scenes.Clock;
+import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
 
@@ -38,17 +37,17 @@ public class CityScreen implements Screen {
     private final B2WorldHandler b2wh;
     private final Buffoon buffoon;
     private final MyTimer timer;
-    private final Clock clock;
+    private final HUD HUD;
     private final NPC merchant;
     private final NPC guard1;
     private final NPC guard2;
     private final ArrayList<Item> itemList;
 
-    public CityScreen(LOD game, ResourceManager resourceManager, Clock clock, MyTimer timer) {
+    public CityScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
         this.game = game;
         this.timer = timer;
-        this.clock = clock;
+        this.HUD = HUD;
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
 
         // Creating tiled map
@@ -76,7 +75,7 @@ public class CityScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, game.batch, game);     //Creating world
 
-        clock.start();
+        HUD.start();
     }
 
     @Override
@@ -93,7 +92,7 @@ public class CityScreen implements Screen {
         guard1.update(delta);
         guard2.update(delta);
         System.out.println(buffoon.getPosition());
-        if (clock.getTime() == 17) game.changeScreen("castle");
+        if (HUD.getTime() == 17) game.changeScreen("castle");
     }
 
     public void handleInput() {
@@ -171,8 +170,8 @@ public class CityScreen implements Screen {
         renderer.setView(gameCam);
         renderer.render();
 
-        game.batch.setProjectionMatrix(clock.stage.getCamera().combined);
-        clock.stage.draw();
+        game.batch.setProjectionMatrix(HUD.stage.getCamera().combined);
+        HUD.stage.draw();
 
         game.batch.setProjectionMatrix(gameCam.combined);
         buffoon.render(game.batch);
