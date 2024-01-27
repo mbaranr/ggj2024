@@ -49,25 +49,25 @@ public class Buffoon extends B2Sprite {
         resourceManager.loadTexture("buffoon_run_down.png", "buffoon_run_down");
         resourceManager.loadTexture("buffoon_run_left.png", "buffoon_run_left");
         resourceManager.loadTexture("buffoon_run_right.png", "buffoon_run_right");
-
+        resourceManager.loadTexture("buffoon_idle_down.png", "buffoon_idle_down");
     }
 
     public void handleAnimation() {
         switch (currAState) {
             case RUN_UP:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_up"), 32, 32)[0], 1/14f, false, 1f);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_up"), 32, 32)[0], 1/10f, false, 1f);
                 break;
             case RUN_DOWN:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_down"), 32, 32)[0], 1/14f, false, 1f);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_down"), 32, 32)[0], 1/10f, false, 1f);
                 break;
             case RUN_LEFT:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_left"), 32, 32)[0], 1/14f, false, 1f);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_right"), 32, 32)[0], 1/10f, false, 1f);
             break;
             case RUN_RIGHT:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_right"), 32, 32)[0], 1/14f, false, 1f);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_left"), 32, 32)[0], 1/10f, false, 1f);
                 break;
             case IDLE_DOWN:
-                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_up"), 32, 32)[0], 1/14f, false, 1f);
+                setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_idle_down"), 32, 32)[0], 1/4f, false, 1f);
                 break;
             case IDLE_UP:
                 setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_run_up"), 32, 32)[0], 1/14f, false, 1f);
