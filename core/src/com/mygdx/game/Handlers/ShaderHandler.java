@@ -16,6 +16,7 @@ public class ShaderHandler {
     }
 
     public void setShaderVariables() {
-        itemShader.setUniformf("u_amount");
+        itemShader.setUniformf("u_amount", 10);
+        itemShader.setUniformf();
     }
 }
