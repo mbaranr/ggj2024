@@ -42,7 +42,7 @@ public class Buffoon extends B2Sprite {
         polygonShape.setAsBox(8 / Constants.PPM, 16 / Constants.PPM, new Vector2(0, 0), 0);
         fdef.shape = polygonShape;
         fdef.friction = 0;
-        fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM;
+        fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM | Constants.BIT_TRANSPARENCY;
         b2body.createFixture(fdef).setUserData("buffoon");
 
         playerItems = new LinkedList<Item>();

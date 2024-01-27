@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
 
         // Creating tiled map
         TmxMapLoader mapLoader = new TmxMapLoader();
-        TiledMap map = mapLoader.load("TiledMaps/chunkyworld.tmx");
+        TiledMap map = mapLoader.load("TiledMaps/City/chunkyworld.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
         AtomicInteger eidAllocator = new AtomicInteger();
         timer = new MyTimer();
 
-        buffoon = new Buffoon(3000, 3000, world, resourceManager);
+        buffoon = new Buffoon(7000, 7000, world, resourceManager);
 
 
         itemList = new ArrayList<>();

@@ -22,7 +22,7 @@ public class Clock implements Subscriber {
     }
 
     public void render(SpriteBatch batch) {
-
+        
     }
 
     public void start() {

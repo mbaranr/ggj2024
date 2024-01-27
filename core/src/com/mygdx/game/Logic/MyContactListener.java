@@ -14,10 +14,12 @@ public class MyContactListener implements ContactListener {
     private Fixture fb;
     private ArrayList<Item> itemList;
     private Buffoon buffoon;
+    private int transparencyContact;
 
     public MyContactListener(ArrayList<Item> itemList, Buffoon buffoon) {
         this.itemList = itemList;
         this.buffoon = buffoon;
+        transparencyContact = 0;
     }
 
     @Override
@@ -30,11 +32,11 @@ public class MyContactListener implements ContactListener {
                 if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
                     buffoon.addItem(item);
                     item.setGrabbable(true);
-                    System.out.println("Player on top of Item");
                 }
 
             }
-        } else if (fa.getUserData().equals("transparency") || fa.getUserData().equals("transparency")) {
+        } else if (fa.getUserData().equals("transparency") || fb.getUserData().equals("transparency")) {
+            transparencyContact++;
             buffoon.setCurrAlpha(0.5f);
         }
 
@@ -45,13 +47,17 @@ public class MyContactListener implements ContactListener {
     public void endContact(Contact contact) {
         handleFixtures(contact);
 
-        for(Item item : itemList) {
+        if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
+            for (Item item : itemList) {
 
-            if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
-                item.setGrabbable(false);
-                System.out.println("Player not on range of Item anymore");
+                if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
+                    item.setGrabbable(false);
+                }
+
             }
-
+        } else if (fa.getUserData().equals("transparency") || fb.getUserData().equals("transparency")) {
+            transparencyContact--;
+            if (transparencyContact == 0) buffoon.setCurrAlpha(1f);
         }
     }
 

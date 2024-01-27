@@ -30,6 +30,19 @@ public class B2WorldHandler {
             fdef.filter.categoryBits = Constants.BIT_GROUND;
             body.createFixture(fdef).setUserData("ground");
         }
+
+        // Create colliders
+        for (RectangleMapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Constants.PPM, (rect.getY() + rect.getHeight() / 2) / Constants.PPM);
+            body = world.createBody(bdef);
+            shape.setAsBox((rect.getWidth() / 2) / Constants.PPM, (rect.getHeight() / 2) / Constants.PPM);
+            fdef.shape = shape;
+            fdef.isSensor = true;
+            fdef.filter.categoryBits = Constants.BIT_TRANSPARENCY;
+            body.createFixture(fdef).setUserData("transparency");
+        }
     }
 
 }
