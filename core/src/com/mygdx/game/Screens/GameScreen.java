@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
 
         // Creating tiled map
         TmxMapLoader mapLoader = new TmxMapLoader();
-        TiledMap map = mapLoader.load("chunkyworld.tmx");
+        TiledMap map = mapLoader.load("TiledMaps/chunkyworld.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);

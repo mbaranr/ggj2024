@@ -11,7 +11,6 @@ public class MyContactListener implements ContactListener {
 
     private Fixture fa;
     private Fixture fb;
-    private Item item;
     private ArrayList<Item> itemList;
 
     public MyContactListener(ArrayList<Item> itemList) {
