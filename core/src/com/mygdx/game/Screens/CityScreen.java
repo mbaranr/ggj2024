@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -19,6 +20,7 @@ import com.mygdx.game.Logic.MyContactListener;
 import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
+import com.mygdx.game.RoleCast.NPC;
 import com.mygdx.game.Scenes.Clock;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
@@ -37,6 +39,9 @@ public class CityScreen implements Screen {
     private final Buffoon buffoon;
     private final MyTimer timer;
     private final Clock clock;
+    private final NPC merchant;
+    private final NPC guard1;
+    private final NPC guard2;
     private final ArrayList<Item> itemList;
 
     public CityScreen(LOD game, ResourceManager resourceManager, Clock clock, MyTimer timer) {
@@ -62,7 +67,10 @@ public class CityScreen implements Screen {
         Item banana = new Item(0, 2, world, 0.1f, null, null, null, null, 1);
         itemList.add(banana);
 
-        buffoon = new Buffoon(6000, 7500, world, resourceManager);
+        buffoon = new Buffoon(5640, 7520, world, resourceManager);
+        merchant = new NPC(5700, 7000, world, "merchant", resourceManager);
+        guard1 = new NPC(5626, 7519, world, "guard", resourceManager);
+        guard2 = new NPC(5700, 7519, world, "guard", resourceManager);
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
@@ -81,6 +89,10 @@ public class CityScreen implements Screen {
         gameCam.update();
         timer.update(delta);
         buffoon.update(delta);
+        merchant.update(delta);
+        guard1.update(delta);
+        guard2.update(delta);
+        System.out.println(buffoon.getPosition());
         if (clock.getTime() == 17) game.changeScreen("castle");
     }
 
@@ -140,7 +152,11 @@ public class CityScreen implements Screen {
 
         game.batch.setProjectionMatrix(gameCam.combined);
         buffoon.render(game.batch);
-        b2dr.render(world, gameCam.combined);
+        merchant.render(game.batch);
+        guard1.render(game.batch);
+        guard2.render(game.batch);
+
+        //b2dr.render(world, gameCam.combined);
 
         game.batch.begin();
         game.batch.end();
