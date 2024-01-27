@@ -18,4 +18,6 @@ public class Constants {
     public static final short BIT_GROUND = 2;   // Includes ground and walls (because sometimes the ground can be a wall)
     public static final short BIT_TREE = 4;
     public static final short BIT_ITEM = 8;
+    public static final short BIT_TRANSPARENCY = 16;
+    public static final short BIT_NPC = 32;
 }
