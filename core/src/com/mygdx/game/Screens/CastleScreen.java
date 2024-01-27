@@ -19,7 +19,7 @@ import com.mygdx.game.Logic.MyContactListener;
 import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
-import com.mygdx.game.Scenes.Clock;
+import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
 import java.util.ArrayList;
@@ -36,13 +36,13 @@ public class CastleScreen implements Screen {
     private final B2WorldHandler b2wh;
     private final Buffoon buffoon;
     private final ArrayList<Item> itemList;
-    private final Clock clock;
+    private final HUD HUD;
 
-    public CastleScreen(LOD game, ResourceManager resourceManager, Clock clock, MyTimer timer) {
+    public CastleScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
         this.game = game;
         this.timer = timer;
-        this.clock = clock;
+        this.HUD = HUD;
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
 
         // Creating tiled map
@@ -79,7 +79,7 @@ public class CastleScreen implements Screen {
         gameCam.update();
         timer.update(delta);
         buffoon.update(delta);
-        if (clock.getTime() == 17) game.changeScreen("castle");
+        if (HUD.getTime() == 17) game.changeScreen("castle");
     }
 
     public void handleInput() {
@@ -141,8 +141,8 @@ public class CastleScreen implements Screen {
         game.batch.begin();
         game.batch.end();
 
-        game.batch.setProjectionMatrix(clock.stage.getCamera().combined);
-        clock.stage.draw();
+        game.batch.setProjectionMatrix(HUD.stage.getCamera().combined);
+        HUD.stage.draw();
 
     }
 

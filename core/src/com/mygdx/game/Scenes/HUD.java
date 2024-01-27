@@ -12,7 +12,7 @@ import com.mygdx.game.Interfaces.Subscriber;
 import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Tools.FancyFontHelper;
 
-public class Clock implements Subscriber {
+public class HUD implements Subscriber {
     public Stage stage;
     private Viewport viewport;
     private MyTimer timer;
@@ -21,7 +21,7 @@ public class Clock implements Subscriber {
     private int minutes;
     private Label timeLabel;
 
-    public Clock(MyTimer timer, SpriteBatch batch) {
+    public HUD(MyTimer timer, SpriteBatch batch) {
         this.timer = timer;
 
         viewport = new FitViewport(1000, 1000, new OrthographicCamera());
