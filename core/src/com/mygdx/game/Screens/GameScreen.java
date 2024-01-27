@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
         Item banana = new Item(0, 2, world, 0.1f, null, null, null, null, 1);
         itemList.add(banana);
 
-        world.setContactListener(new MyContactListener(itemList));
+        world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator);     //Creating world
     }
