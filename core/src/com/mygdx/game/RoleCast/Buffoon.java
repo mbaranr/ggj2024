@@ -11,7 +11,7 @@ import java.util.LinkedList;
 
 public class Buffoon extends B2Sprite {
 
-    LinkedList<Item> items;
+    LinkedList<Item> playerItems;
     private Constants.ASTATE currAState;     // Current animation state
     private Constants.ASTATE prevAState;     // Previous animation state
     private final ResourceManager resourceManager;
@@ -123,5 +123,7 @@ public class Buffoon extends B2Sprite {
         b2body.setLinearVelocity(0, 0);
     }
 
-
+    public LinkedList<Item> getPlayerList() {
+        return this.playerItems;
+    }
 }

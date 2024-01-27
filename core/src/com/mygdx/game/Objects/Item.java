@@ -7,9 +7,15 @@ import com.mygdx.game.Tools.Constants;
 
 public class Item extends B2Sprite {
 
-    public Item(int x, int y, World world) {
+    private boolean grabbable;
+    private boolean grab;
+    private int itemID;
 
+    public Item(int x, int y, World world, int itemID) {
+
+        this.itemID = itemID;
         BodyDef bdef = new BodyDef();
+        grabbable = false;
         bdef.position.set(x / Constants.PPM, y / Constants.PPM);
         bdef.type = BodyDef.BodyType.StaticBody;
         b2body = world.createBody(bdef);
@@ -23,8 +29,18 @@ public class Item extends B2Sprite {
         fdef.friction = 0;
         fdef.isSensor = true;
         fdef.filter.categoryBits = Constants.BIT_ITEM;
-        b2body.createFixture(fdef).setUserData("item");
+        b2body.createFixture(fdef).setUserData("item_" + itemID);
     }
 
+    public int getItemID() {
+        return itemID;
+    }
 
+    public void setGrabbable(boolean flag) {
+        this.grabbable = flag;
+    }
+
+    public boolean canBeGrabbed() {
+        return this.grabbable;
+    }
 }

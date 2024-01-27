@@ -23,7 +23,7 @@ import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
 
-
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameScreen implements Screen {
@@ -34,11 +34,13 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
     private final World world;    // World holding all the physical objects
     private final Box2DDebugRenderer b2dr;
+    private final B2WorldHandler b2wh;
     private final Buffoon buffoon;
+    private final ArrayList<Item> itemList;
+
     public GameScreen(LOD game, ResourceManager resourceManager) {
 
         this.game = game;
-
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
 
         // Creating tiled map
@@ -56,9 +58,14 @@ public class GameScreen implements Screen {
 
         buffoon = new Buffoon(0, 0, world, resourceManager);
 
-        world.setContactListener(new MyContactListener());
+
+        itemList = new ArrayList<>();
+        Item banana = new Item(0, 2, world, 1);
+        itemList.add(banana);
+
+        world.setContactListener(new MyContactListener(itemList));
         b2dr = new Box2DDebugRenderer();
-        new B2WorldHandler(world, map, resourceManager, timer, eidAllocator);     //Creating world
+        b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator);     //Creating world
     }
 
     @Override
@@ -90,6 +97,15 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             input = true;
             buffoon.moveRight();
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            for(Item item : itemList) {
+                if(item.canBeGrabbed()) {
+                    buffoon.getPlayerList().add(item);
+                    System.out.println("Item was grabbed by the player");
+                }
+            }
         }
 
         if (!input) buffoon.stop();
