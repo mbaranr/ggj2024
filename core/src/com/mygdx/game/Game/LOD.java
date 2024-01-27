@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Screens.CastleScreen;
+import com.mygdx.game.Screens.ChurchScreen;
 import com.mygdx.game.Screens.CityScreen;
 import com.mygdx.game.Tools.ResourceManager;
 
@@ -13,6 +14,7 @@ public class LOD extends Game {
 	private ResourceManager resourceManager;
 	private CityScreen cityScreen;
 	private CastleScreen castleScreen;
+	private ChurchScreen churchScreen;
 	private MyTimer timer;
 	private HUD HUD;
 	@Override
@@ -24,8 +26,9 @@ public class LOD extends Game {
 
 		cityScreen = new CityScreen(this, resourceManager, HUD, timer);
 		castleScreen = new CastleScreen(this, resourceManager, HUD, timer);
+		churchScreen = new ChurchScreen(this, resourceManager, HUD, timer);
 
-		setScreen(cityScreen);
+		setScreen(churchScreen);
 	}
 
 	public void changeScreen(String tag) {

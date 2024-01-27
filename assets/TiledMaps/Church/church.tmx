@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="82">
  <tileset firstgid="1" source="inchurch.tsx"/>
- <tileset firstgid="2069" source="Nun.tsx"/>
  <tileset firstgid="2069" source="nun_room.tsx"/>
  <tileset firstgid="3030" source="corner.tsx"/>
  <layer id="1" name="church" width="100" height="100">
