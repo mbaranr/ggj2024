@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -20,13 +19,13 @@ import com.mygdx.game.Logic.MyContactListener;
 import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
+import com.mygdx.game.Scenes.Clock;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
-
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class GameScreen implements Screen {
+public class CastleScreen implements Screen {
     private final MyTimer timer;
     private final LOD game;
     private final OrthographicCamera gameCam;
@@ -37,10 +36,13 @@ public class GameScreen implements Screen {
     private final B2WorldHandler b2wh;
     private final Buffoon buffoon;
     private final ArrayList<Item> itemList;
+    private final Clock clock;
 
-    public GameScreen(LOD game, ResourceManager resourceManager) {
+    public CastleScreen(LOD game, ResourceManager resourceManager, Clock clock, MyTimer timer) {
 
         this.game = game;
+        this.timer = timer;
+        this.clock = clock;
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
 
         // Creating tiled map
@@ -54,19 +56,18 @@ public class GameScreen implements Screen {
         gameCam.position.set(2, 77, 0);
 
         AtomicInteger eidAllocator = new AtomicInteger();
-        timer = new MyTimer();
-
-        buffoon = new Buffoon(7000, 7000, world, resourceManager);
-
 
         itemList = new ArrayList<>();
         Item banana = new Item(0, 2, world, 0.1f, null, null, null, null, 1);
         itemList.add(banana);
 
+        buffoon = new Buffoon(0, 0, world, resourceManager);
+
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
-        b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, game.batch);     //Creating world
+        b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, game.batch, game);     //Creating world
     }
+
 
     @Override
     public void show() {  }
@@ -78,6 +79,7 @@ public class GameScreen implements Screen {
         gameCam.update();
         timer.update(delta);
         buffoon.update(delta);
+        if (clock.getTime() == 17) game.changeScreen("castle");
     }
 
     public void handleInput() {
@@ -132,13 +134,16 @@ public class GameScreen implements Screen {
         renderer.render();
 
         buffoon.render(game.batch);
-        b2wh.render(game.batch);
 
         b2dr.render(world, gameCam.combined);
         game.batch.setProjectionMatrix(gameCam.combined);
 
         game.batch.begin();
         game.batch.end();
+
+        game.batch.setProjectionMatrix(clock.stage.getCamera().combined);
+        clock.stage.draw();
+
     }
 
     @Override

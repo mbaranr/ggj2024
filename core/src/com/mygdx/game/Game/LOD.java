@@ -2,20 +2,38 @@ package com.mygdx.game.Game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.Screens.GameScreen;
+import com.mygdx.game.Handlers.B2WorldHandler;
+import com.mygdx.game.Logic.MyTimer;
+import com.mygdx.game.RoleCast.Buffoon;
+import com.mygdx.game.Scenes.Clock;
+import com.mygdx.game.Screens.CastleScreen;
+import com.mygdx.game.Screens.CityScreen;
 import com.mygdx.game.Tools.ResourceManager;
 
 public class LOD extends Game {
 	public SpriteBatch batch;
 	private ResourceManager resourceManager;
-
+	private CityScreen cityScreen;
+	private CastleScreen castleScreen;
+	private MyTimer timer;
+	private Clock clock;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		resourceManager = new ResourceManager();
-		setScreen(new GameScreen(this, resourceManager));
+		timer = new MyTimer();
+		clock = new Clock(timer, batch);
+
+		cityScreen = new CityScreen(this, resourceManager, clock, timer);
+		castleScreen = new CastleScreen(this, resourceManager, clock, timer);
+
+		setScreen(cityScreen);
 	}
 
+	public void changeScreen(String tag) {
+		if (tag.equals("castle")) setScreen(castleScreen);
+		if (tag.equals("city")) setScreen(cityScreen);
+	}
 	@Override
 	public void render () {
 		super.render();

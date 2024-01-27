@@ -1,24 +1,24 @@
 package com.mygdx.game.Handlers;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Logic.MyTimer;
-import com.mygdx.game.Scenes.Clock;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class B2WorldHandler {
 
-    Clock clock;
+    LOD game;
 
-    public B2WorldHandler(World world, TiledMap map, ResourceManager resourceManager, MyTimer timer, AtomicInteger eidAllocator, SpriteBatch batch) {
-
+    public B2WorldHandler(World world, TiledMap map, ResourceManager resourceManager, MyTimer timer, AtomicInteger eidAllocator, SpriteBatch batch, LOD game) {
+        
+        this.game = game;
+        
         BodyDef bdef  = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
@@ -49,13 +49,6 @@ public class B2WorldHandler {
             body.createFixture(fdef).setUserData("transparency");
         }
 
-        clock = new Clock(timer, batch);
-        clock.start();
-    }
 
-    public void render(SpriteBatch batch) {
-        batch.setProjectionMatrix(clock.stage.getCamera().combined);
-        clock.stage.draw();
     }
-
 }

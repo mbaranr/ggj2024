@@ -6,16 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Interfaces.Subscriber;
 import com.mygdx.game.Logic.MyTimer;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.mygdx.game.Tools.FancyFontHelper;
 
 public class Clock implements Subscriber {
-
     public Stage stage;
     private Viewport viewport;
     private MyTimer timer;
@@ -37,7 +34,7 @@ public class Clock implements Subscriber {
         hour = 9;
         minutes = 0;
 
-        timeLabel = new Label(String.format("%02d", hour) + ":" + String.format("%02d", minutes), new Label.LabelStyle(FancyFontHelper.getInstance().getFont(Color.RED, 70), Color.BLACK));
+        timeLabel = new Label(String.format("%02d", hour) + ":" + String.format("%02d", minutes), new Label.LabelStyle(FancyFontHelper.getInstance().getFont(Color.RED, 70), new Color(0.5f, 1, 0, 1)));
 
         table.add(timeLabel).padTop(40);
         stage.addActor(table);
@@ -61,5 +58,9 @@ public class Clock implements Subscriber {
         }
         timeLabel.setText(String.format("%02d", hour) + ":" + String.format("%02d", minutes));
         timer.start(1f, "minute_passes", this);
+    }
+
+    public int getTime() {
+        return hour;
     }
 }
