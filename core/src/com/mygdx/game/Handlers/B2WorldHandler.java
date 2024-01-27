@@ -17,7 +17,6 @@ public class B2WorldHandler {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-
 //        // Create ground
 //        for (RectangleMapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
 //            Rectangle rect = object.getRectangle();

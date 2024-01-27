@@ -60,7 +60,7 @@ public class GameScreen implements Screen {
 
 
         itemList = new ArrayList<>();
-        Item banana = new Item(0, 2, world, 1);
+        Item banana = new Item(0, 2, world, 0.1f, null, null, null, null, 1);
         itemList.add(banana);
 
         world.setContactListener(new MyContactListener(itemList));

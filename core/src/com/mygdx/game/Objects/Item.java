@@ -10,9 +10,20 @@ public class Item extends B2Sprite {
     private boolean grabbable;
     private boolean grab;
     private int itemID;
+    private float laughRating; // Value from 0 to 1
+    private String story;
+    private Constants.COMEDYTYPE comedytype;
+    private String name;
+    private String perfectMatch;
 
-    public Item(int x, int y, World world, int itemID) {
 
+public Item(int x, int y, World world, float laughRating, String story, Constants.COMEDYTYPE comedytype, String name, String perfectMatch, int itemID) {
+
+        this.laughRating = laughRating;
+        this.story = story;
+        this.comedytype = comedytype;
+        this.name = name;
+        this.perfectMatch = perfectMatch;
         this.itemID = itemID;
         BodyDef bdef = new BodyDef();
         grabbable = false;
@@ -30,6 +41,7 @@ public class Item extends B2Sprite {
         fdef.isSensor = true;
         fdef.filter.categoryBits = Constants.BIT_ITEM;
         b2body.createFixture(fdef).setUserData("item_" + itemID);
+
     }
 
     public int getItemID() {

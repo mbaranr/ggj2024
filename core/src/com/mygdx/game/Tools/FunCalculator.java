@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class FunCalculator {
     
-    public void evaluate(LinkedList<Item> items) {
+    public void evaluate(LinkedList<Item> items, Constants.COMEDYTYPE favouredType) {
 
     }
 
