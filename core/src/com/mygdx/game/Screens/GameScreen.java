@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
         AtomicInteger eidAllocator = new AtomicInteger();
         timer = new MyTimer();
 
-        buffoon = new Buffoon(0, 0, world, resourceManager);
+        buffoon = new Buffoon(3000, 3000, world, resourceManager);
 
 
         itemList = new ArrayList<>();
@@ -82,20 +82,27 @@ public class GameScreen implements Screen {
 
     public void handleInput() {
         boolean input = false;
+        boolean stopX = true;
+        boolean stopY = true;
+
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             input = true;
+            stopY = false;
             buffoon.moveUp();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             input = true;
+            stopY = false;
             buffoon.moveDown();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             input = true;
+            stopX = false;
             buffoon.moveLeft();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             input = true;
+            stopX = false;
             buffoon.moveRight();
         }
 
@@ -109,6 +116,8 @@ public class GameScreen implements Screen {
         }
 
         if (!input) buffoon.stop();
+        if (stopY) buffoon.stopY();
+        if (stopX) buffoon.stopX();
     }
 
     public void render(float delta) {
