@@ -1,9 +1,11 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -16,11 +18,12 @@ import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Handlers.B2WorldHandler;
 import com.mygdx.game.Logic.MyContactListener;
 import com.mygdx.game.Logic.MyTimer;
+import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
 
-
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameScreen implements Screen {
@@ -31,20 +34,18 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
     private final World world;    // World holding all the physical objects
     private final Box2DDebugRenderer b2dr;
+    private final B2WorldHandler b2wh;
     private final Buffoon buffoon;
-    public GameScreen(LOD game, String stage, ResourceManager resourceManager) {
+    private final ArrayList<Item> itemList;
+
+    public GameScreen(LOD game, ResourceManager resourceManager) {
 
         this.game = game;
-
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
 
         // Creating tiled map
         TmxMapLoader mapLoader = new TmxMapLoader();
-        TiledMap map = null;
-
-        if (stage.equals("everlush")) map = mapLoader.load("everlush.tmx");
-        else if (stage.equals("verdant_hollow")) map = mapLoader.load("verdant_hollow.tmx");
-        else map = mapLoader.load("grim_factory.tmx");
+        TiledMap map = mapLoader.load("TiledMaps/chunkyworld.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
@@ -55,30 +56,61 @@ public class GameScreen implements Screen {
         AtomicInteger eidAllocator = new AtomicInteger();
         timer = new MyTimer();
 
-        buffoon = new Buffoon();
+        buffoon = new Buffoon(0, 0, world, resourceManager);
 
-        world.setContactListener(new MyContactListener());
+
+        itemList = new ArrayList<>();
+        Item banana = new Item(0, 2, world, 0.1f, null, null, null, null, 1);
+        itemList.add(banana);
+
+        world.setContactListener(new MyContactListener(itemList));
         b2dr = new Box2DDebugRenderer();
-        new B2WorldHandler(world, map, resourceManager, timer, eidAllocator);     //Creating world
-
-
+        b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator);     //Creating world
     }
 
     @Override
     public void show() {  }
 
     public void update(float delta) {
+        handleInput();
         world.step(1/60f, 6, 2);
-        gameCam.position.set(entityHandler.getCurrCharacter().getPosition().x, entityHandler.getCurrCharacter().getPosition().y + 40 / Constants.PPM, 0);
+        gameCam.position.set(buffoon.getPosition().x, buffoon.getPosition().y, 0);
         gameCam.update();
         timer.update(delta);
+        buffoon.update(delta);
     }
 
     public void handleInput() {
+        boolean input = false;
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            input = true;
+            buffoon.moveUp();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            input = true;
+            buffoon.moveDown();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            input = true;
+            buffoon.moveLeft();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            input = true;
+            buffoon.moveRight();
+        }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            for(Item item : itemList) {
+                if(item.canBeGrabbed()) {
+                    buffoon.getPlayerList().add(item);
+                    System.out.println("Item was grabbed by the player");
+                }
+            }
+        }
+
+        if (!input) buffoon.stop();
     }
 
-    @Override
     public void render(float delta) {
 
         update(delta);
@@ -89,16 +121,14 @@ public class GameScreen implements Screen {
 
         renderer.setView(gameCam);
         renderer.render();
-        entityHandler.render(game.batch);
+
+        buffoon.render(game.batch);
 
         b2dr.render(world, gameCam.combined);
         game.batch.setProjectionMatrix(gameCam.combined);
 
         game.batch.begin();
         game.batch.end();
-
-        shapeDrawer.render(game.batch);
-
     }
 
     @Override
