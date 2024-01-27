@@ -67,7 +67,7 @@ public class CityScreen implements Screen {
         AtomicInteger eidAllocator = new AtomicInteger();
 
         itemList = new ArrayList<>();
-        Item underwear = new Item(0, 2, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
+        Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
         itemList.add(underwear);
 
         shaderHandler = new ShaderHandler(game.batch);

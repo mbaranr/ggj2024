@@ -79,7 +79,10 @@ public Item(int x, int y, World world, float laughRating, String story, Constant
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(texture, b2body.getPosition().x, b2body.getPosition().y);
+        System.out.println("here");
+        batch.begin();
+        batch.draw(texture,  b2body.getPosition().x, b2body.getPosition().y, texture.getWidth() / Constants.PPM, texture.getHeight() / Constants.PPM);
+        batch.end();
     }
 
     public Constants.COMEDYTYPE getComedytype() {
