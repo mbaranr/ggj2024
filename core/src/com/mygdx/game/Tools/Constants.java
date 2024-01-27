@@ -5,6 +5,10 @@ public class Constants {
     public static final float PPM = 100;
     public static final float MAX_SPEED = 1.6f;
 
+    public enum COMEDYTYPE {
+
+    }
+
     // Animation state flag
     public enum ASTATE {
         RUN_UP, RUN_DOWN, RUN_LEFT, RUN_RIGHT, IDLE_DOWN, IDLE_UP, IDLE_LEFT, IDLE_RIGHT
