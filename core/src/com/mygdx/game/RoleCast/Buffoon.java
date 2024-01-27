@@ -122,6 +122,27 @@ public class Buffoon extends B2Sprite {
         b2body.setLinearVelocity(Constants.MAX_SPEED, b2body.getLinearVelocity().y);
     }
 
+    public void moveUpLeft() {
+        facingRight = false;
+        currAState = Constants.ASTATE.RUN_LEFT;
+        b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
+    }
+
+    public void moveUpRight() {
+        facingRight = true;
+        currAState = Constants.ASTATE.RUN_RIGHT;
+        b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(Constants.MAX_SPEED / Math.sqrt(2)));
+    }
+    public void moveDownLeft() {
+        facingRight = false;
+        currAState = Constants.ASTATE.RUN_LEFT;
+        b2body.setLinearVelocity((float)(-Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
+    }
+    public void moveDownRight() {
+        facingRight = true;
+        currAState = Constants.ASTATE.RUN_RIGHT;
+        b2body.setLinearVelocity((float)(Constants.MAX_SPEED / Math.sqrt(2)), (float)(-Constants.MAX_SPEED / Math.sqrt(2)));
+    }
     public void stop() {
         switch (currAState) {
             case RUN_UP:
