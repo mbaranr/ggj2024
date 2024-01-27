@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Handlers.B2WorldHandler;
+import com.mygdx.game.Handlers.ShaderHandler;
 import com.mygdx.game.Logic.MyContactListener;
 import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
@@ -43,6 +45,7 @@ public class CityScreen implements Screen {
     private final NPC guard1;
     private final NPC guard2;
     private final ArrayList<Item> itemList;
+    private final ShaderHandler shaderHandler;
 
     public CityScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
@@ -64,9 +67,10 @@ public class CityScreen implements Screen {
         AtomicInteger eidAllocator = new AtomicInteger();
 
         itemList = new ArrayList<>();
-        Item banana = new Item(0, 2, world, 0.1f, null, null, null, null, 1);
-        itemList.add(banana);
+        Item underwear = new Item(0, 2, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
+        itemList.add(underwear);
 
+        shaderHandler = new ShaderHandler(game.batch);
         buffoon = new Buffoon(5640, 7520, world, resourceManager);
         merchant = new NPC(5700, 7000, world, "merchant", resourceManager);
         guard1 = new NPC(5626, 7519, world, "guard", resourceManager);
@@ -92,6 +96,7 @@ public class CityScreen implements Screen {
         merchant.update(delta);
         guard1.update(delta);
         guard2.update(delta);
+        shaderHandler.update(delta);
         System.out.println(buffoon.getPosition());
         if (HUD.getTime() == 17) game.changeScreen("castle");
     }
@@ -175,15 +180,20 @@ public class CityScreen implements Screen {
         HUD.stage.draw();
 
         game.batch.setProjectionMatrix(gameCam.combined);
+
+        game.batch.setShader(shaderHandler.getItemShader());
+        for (Item item : itemList) {
+            item.render(game.batch);
+        }
+        game.batch.setShader(null);
+
         buffoon.render(game.batch);
         merchant.render(game.batch);
         guard1.render(game.batch);
         guard2.render(game.batch);
 
-        //b2dr.render(world, gameCam.combined);
 
-        game.batch.begin();
-        game.batch.end();
+        //b2dr.render(world, gameCam.combined);
     }
 
     @Override

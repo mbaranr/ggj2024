@@ -1,11 +1,13 @@
 package com.mygdx.game.Objects;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
 
-public class Item extends B2Sprite {
+public class Item {
 
     private boolean grabbable;
     private boolean grab;
@@ -14,10 +16,11 @@ public class Item extends B2Sprite {
     private String story;
     private Constants.COMEDYTYPE comedytype;
     private String name;
+    private Body b2body;
     private String perfectMatch;
+    private Texture texture;
 
-
-public Item(int x, int y, World world, float laughRating, String story, Constants.COMEDYTYPE comedytype, String name, String perfectMatch, int itemID) {
+public Item(int x, int y, World world, float laughRating, String story, Constants.COMEDYTYPE comedytype, String name, String perfectMatch, int itemID, String path) {
 
         this.laughRating = laughRating;
         this.story = story;
@@ -25,6 +28,9 @@ public Item(int x, int y, World world, float laughRating, String story, Constant
         this.name = name;
         this.perfectMatch = perfectMatch;
         this.itemID = itemID;
+
+        texture = new Texture(path);
+
         BodyDef bdef = new BodyDef();
         grabbable = false;
         bdef.position.set(x / Constants.PPM, y / Constants.PPM);
@@ -70,6 +76,10 @@ public Item(int x, int y, World world, float laughRating, String story, Constant
 
     public String getStory() {
         return story;
+    }
+
+    public void render(SpriteBatch batch) {
+        batch.draw(texture, b2body.getPosition().x, b2body.getPosition().y);
     }
 
     public Constants.COMEDYTYPE getComedytype() {

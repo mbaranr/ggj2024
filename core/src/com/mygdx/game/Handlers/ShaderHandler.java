@@ -6,17 +6,26 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public class ShaderHandler {
 
+    private float time;
     private ShaderProgram itemShader;
 
-    public void initShader(SpriteBatch batch) {
-        itemShader = new ShaderProgram(batch.getShader().getVertexShaderSource(), Gdx.files.internal("Shaders/Shimmer.frag").readString());
+    public ShaderHandler(SpriteBatch batch) {
+        time = 0;
+        itemShader = new ShaderProgram(Gdx.files.internal("Shaders/Vertex.glsl").readString(), Gdx.files.internal("Shaders/Shimmer.glsl").readString());
+        ShaderProgram.pedantic = false;
         if (itemShader.isCompiled()) {
             System.out.println(itemShader.getLog());
         }
     }
 
-    public void setShaderVariables() {
-        itemShader.setUniformf("u_amount", 10);
-        itemShader.setUniformf();
+    public void update(float delta) {
+//        time += delta;
+//        itemShader.setUniformf("u_texture", 50);
+//        itemShader.setUniformf("u_speed", .5f);
+//        itemShader.setUniformf("u_time", time);
+    }
+
+    public ShaderProgram getItemShader() {
+        return itemShader;
     }
 }

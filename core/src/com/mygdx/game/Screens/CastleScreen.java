@@ -58,8 +58,6 @@ public class CastleScreen implements Screen {
         AtomicInteger eidAllocator = new AtomicInteger();
 
         itemList = new ArrayList<>();
-        Item banana = new Item(0, 2, world, 0.1f, null, null, null, null, 1);
-        itemList.add(banana);
 
         buffoon = new Buffoon(0, 0, world, resourceManager);
 
