@@ -7,7 +7,19 @@ import com.mygdx.game.Tools.Constants;
 
 public class Item extends B2Sprite {
 
-    public Item(int x, int y, World world) {
+    private float laughRating; // Value from 0 to 1
+    private String story;
+    private Constants.COMEDYTYPE comedytype;
+    private String name;
+    private String perfectMatch;
+
+    public Item(int x, int y, World world, float laughRating, String story, Constants.COMEDYTYPE comedytype, String name, String perfectMatch) {
+
+        this.laughRating = laughRating;
+        this.story = story;
+        this.comedytype = comedytype;
+        this.name = name;
+        this.perfectMatch = perfectMatch;
 
         BodyDef bdef = new BodyDef();
         bdef.position.set(x / Constants.PPM, y / Constants.PPM);

@@ -13,7 +13,6 @@ import java.util.LinkedList;
 
 public class King extends B2Sprite {
 
-
     private int laughMeter;
 
     public King(int x, int y, World world) {
