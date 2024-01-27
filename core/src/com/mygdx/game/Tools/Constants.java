@@ -6,7 +6,7 @@ public class Constants {
     public static final float MAX_SPEED = 1.6f;
 
     public enum COMEDYTYPE {
-
+        ROMANTIC, SELF_DEPRECATING, TRAGIC, DARK, ABSURD
     }
 
     // Animation state flag

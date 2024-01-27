@@ -8,16 +8,27 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
-
+import com.mygdx.game.Tools.FunCalculator;
+import java.util.Random;
 import java.util.LinkedList;
 
 public class King extends B2Sprite {
-
-    private int laughMeter;
+    private float laughMeter;
+    private final FunCalculator funCalculator;
+    private Constants.COMEDYTYPE favouredType;
+    private final Constants.COMEDYTYPE[] comedytypes;
 
     public King(int x, int y, World world) {
 
         laughMeter = 0;
+        funCalculator = new FunCalculator();
+
+        comedytypes = new Constants.COMEDYTYPE[5];
+        comedytypes[0] = Constants.COMEDYTYPE.ROMANTIC;
+        comedytypes[1] = Constants.COMEDYTYPE.SELF_DEPRECATING;
+        comedytypes[2] = Constants.COMEDYTYPE.DARK;
+        comedytypes[3] = Constants.COMEDYTYPE.ABSURD;
+        comedytypes[4] = Constants.COMEDYTYPE.TRAGIC;
 
         BodyDef bdef = new BodyDef();
         bdef.position.set(x / Constants.PPM, y / Constants.PPM);
@@ -33,6 +44,8 @@ public class King extends B2Sprite {
         fdef.friction = 0;
         fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM;
         b2body.createFixture(fdef).setUserData("king");
+
+        wakeUp();
 
     }
 
@@ -53,8 +66,18 @@ public class King extends B2Sprite {
         laughMeter = 0;
     }
 
-    public void presentItems(LinkedList<Item> items) {
+    public void wakeUp() {
+        Random rand = new Random();
+        int index = rand.nextInt(5);
+        while (comedytypes[index] == null) {
+            index = rand.nextInt(5);
+        }
+        favouredType = comedytypes[index];
+        comedytypes[index] = null;
+    }
 
+    public void presentItems(LinkedList<Item> items) {
+        laughMeter += funCalculator.evaluate(items, favouredType);
     }
 
 }

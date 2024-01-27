@@ -55,4 +55,24 @@ public Item(int x, int y, World world, float laughRating, String story, Constant
     public boolean canBeGrabbed() {
         return this.grabbable;
     }
+
+    public float getLaughRating() {
+        return laughRating;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPerfectMatch() {
+        return perfectMatch;
+    }
+
+    public String getStory() {
+        return story;
+    }
+
+    public Constants.COMEDYTYPE getComedytype() {
+        return comedytype;
+    }
 }
