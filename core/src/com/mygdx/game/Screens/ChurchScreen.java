@@ -15,56 +15,59 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Handlers.B2WorldHandler;
+import com.mygdx.game.Handlers.ShaderHandler;
 import com.mygdx.game.Logic.MyContactListener;
 import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
+import com.mygdx.game.RoleCast.NPC;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChurchScreen extends GameScreen {
 
-    private MyTimer timer;
-    private LOD game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private TmxMapLoader mapLoader;
     private OrthogonalTiledMapRenderer renderer;
     private World world;    // World holding all the physical objects
     private Box2DDebugRenderer b2dr;
-    private B2WorldHandler b2wh;
     private Buffoon buffoon;
-    private ArrayList<Item> itemList;
-    private HUD HUD;
+    private LinkedList<NPC> npcs;
+    private LinkedList<Item> itemList;
+    private ShaderHandler shaderHandler;
 
     public ChurchScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
         super(game, HUD, timer);
 
         // Creating tiled map
-        mapLoader = new TmxMapLoader();
+        TmxMapLoader mapLoader = new TmxMapLoader();
         TiledMap map = mapLoader.load("TiledMaps/Church/church.tmx");
 
-        AtomicInteger eidAllocator = new AtomicInteger();
-
-        // World
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
-
-        // Buffoon stuff
-        itemList = new ArrayList<>();
-        buffoon = new Buffoon(300, 870, world, resourceManager);
-
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
+
+        itemList = new LinkedList<>();
+
+        npcs = new LinkedList<>();
+        shaderHandler = new ShaderHandler(game.batch);
+        buffoon = new Buffoon(0, 0, world, resourceManager);
+        npcs.add(new NPC(5700, 7000, world, "nun", resourceManager, game));
+
         world.setContactListener(new MyContactListener(buffoon));
         b2dr = new Box2DDebugRenderer();
-        b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);
-    }
+        new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
+        HUD.start();
+    }
 
     @Override
     public void show() {  }
@@ -76,7 +79,10 @@ public class ChurchScreen extends GameScreen {
         gameCam.update();
         timer.update(delta);
         buffoon.update(delta);
-        System.out.println(buffoon.getPosition());
+        for (NPC npc : npcs) {
+            npc.update(delta);
+        }
+        shaderHandler.update(delta);
         if (HUD.getTime() == 17) game.changeScreen("castle");
     }
 
@@ -105,14 +111,47 @@ public class ChurchScreen extends GameScreen {
             stopX = false;
             buffoon.moveRight();
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+            input = true;
+            stopX = false;
+            stopY = false;
+            buffoon.moveUpLeft();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+            input = true;
+            stopX = false;
+            stopY = false;
+            buffoon.moveUpRight();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+            input = true;
+            stopX = false;
+            stopY = false;
+            buffoon.moveDownLeft();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+            input = true;
+            stopX = false;
+            stopY = false;
+            buffoon.moveDownRight();
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
+                    System.out.println(2233);
                     buffoon.getPlayerList().add(item);
-                    System.out.println("Item was grabbed by the player");
+                    toRemove.add(item);
                 }
             }
+            for (Item item : toRemove) {
+                itemList.remove(item);
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            if (buffoon.getTargetnpc() != null) buffoon.getTargetnpc().interact();
         }
 
         if (!input) buffoon.stop();
@@ -131,17 +170,23 @@ public class ChurchScreen extends GameScreen {
         renderer.setView(gameCam);
         renderer.render();
 
-        buffoon.render(game.batch);
-
-        b2dr.render(world, gameCam.combined);
-        game.batch.setProjectionMatrix(gameCam.combined);
-
-        game.batch.begin();
-        game.batch.end();
-
         game.batch.setProjectionMatrix(HUD.stage.getCamera().combined);
         HUD.stage.draw();
 
+        game.batch.setProjectionMatrix(gameCam.combined);
+
+        game.batch.setShader(shaderHandler.getItemShader());
+        for (Item item : itemList) {
+            item.render(game.batch);
+        }
+        game.batch.setShader(null);
+
+        buffoon.render(game.batch);
+        for (NPC npc : npcs) {
+            npc.render(game.batch);
+        }
+
+        b2dr.render(world, gameCam.combined);
     }
 
     @Override
