@@ -17,7 +17,8 @@ public class Buffoon extends B2Sprite {
     private float currAlpha;
     private float prevAlpha;
     private final ResourceManager resourceManager;
-    private int coinCount;
+    private NPC targetnpc;
+    private King king;
 
     public Buffoon(int x, int y, World world, ResourceManager resourceManager) {
 
@@ -26,6 +27,8 @@ public class Buffoon extends B2Sprite {
         prevAState = Constants.ASTATE.IDLE_DOWN;
         currAlpha = 1;
         prevAlpha = 1;
+
+        king = null;
 
         loadSprites();
 
@@ -47,8 +50,6 @@ public class Buffoon extends B2Sprite {
         b2body.createFixture(fdef).setUserData("buffoon");
 
         playerItems = new LinkedList<Item>();
-
-        coinCount = 0;
     }
 
     public void loadSprites() {
@@ -185,10 +186,26 @@ public class Buffoon extends B2Sprite {
     public LinkedList<Item> getPlayerList() {
         return this.playerItems;
     }
-    public void earnCoin() {
-        coinCount++;
+
+    public void setTargetnpc(NPC npc) {
+        targetnpc = npc;
     }
-    public int getCoinCount() {
-        return coinCount;
+
+    public void setKing(King king) {
+        this.king = king;
     }
+
+    public King getKing() {
+        return king;
+    }
+
+    public void giveItems() {
+        king.presentItems(playerItems);
+        playerItems.clear();
+    }
+
+    public NPC getTargetnpc() {
+        return targetnpc;
+    }
+
 }
