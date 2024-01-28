@@ -160,6 +160,10 @@ public class CityScreen implements Screen {
             }
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            if (buffoon.getTargetnpc() != null) buffoon.getTargetnpc().interact();
+        }
+
         if (!input) buffoon.stop();
         if (stopY) buffoon.stopY();
         if (stopX) buffoon.stopX();

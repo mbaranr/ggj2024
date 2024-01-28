@@ -183,10 +183,12 @@ public class Buffoon extends B2Sprite {
     public LinkedList<Item> getPlayerList() {
         return this.playerItems;
     }
-    public void earnCoin() {
-        coinCount++;
+
+    public void setTargetnpc(NPC npc) {
+        targetnpc = npc;
     }
-    public int getCoinCount() {
-        return coinCount;
+
+    public NPC getTargetnpc() {
+        return targetnpc;
     }
 }
