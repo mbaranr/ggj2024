@@ -197,6 +197,8 @@ public class CastleScreen extends GameScreen {
         game.batch.setProjectionMatrix(gameCam.combined);
 
         buffoon.render(game.batch);
+        king.render(game.batch);
+
         for (NPC npc : npcs) {
             npc.render(game.batch);
         }
