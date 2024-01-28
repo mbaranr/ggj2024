@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Game.LOD;
+import com.mygdx.game.Scenes.CutScene;
 import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
@@ -62,9 +63,9 @@ public class NPC extends B2Sprite {
     }
 
     public void interact() {
-        if (name.equals("merchant")) resourceManager.loadTexture("merchant_idle.png", name);
-        if (name.equals("nun")) resourceManager.loadTexture("nun_idle.png", name);
+//        if (name.equals("merchant")) game.cutScene = new CutScene(game.batch, "Ya want to buy some of my wine don't ya.");
+//        if (name.equals("nun")) game.cutScene = new CutScene(game.batch, "May god be with you.");
         if (name.equals("farmer")) game.changeScreen("tomato");
-        if (name.equals("guard")) resourceManager.loadTexture("guard_idle.png", name);
+//        if (name.equals("guard")) game.cutScene = new CutScene(game.batch, "....");
     }
 }

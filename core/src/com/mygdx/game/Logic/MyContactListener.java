@@ -17,9 +17,7 @@ public class MyContactListener implements ContactListener {
     private Buffoon buffoon;
     private int transparencyContact;
     private LOD game;
-
-
-    public MyContactListener(LinkedList<Item> itemList, Buffoon buffoon, LOD game) {
+    public MyContactListener(Buffoon buffoon, LOD game) {
         this.game = game;
         this.buffoon = buffoon;
         transparencyContact = 0;

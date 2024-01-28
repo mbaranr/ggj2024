@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -50,16 +51,11 @@ public class ChurchScreen extends GameScreen {
         TmxMapLoader mapLoader = new TmxMapLoader();
         TiledMap map = mapLoader.load("TiledMaps/Church/church.tmx");
 
-
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
-
-        // World
-        world = new World(new Vector2(0, 0), true);
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
 
         // Buffoon stuff
         itemList = new LinkedList<>();
@@ -69,17 +65,11 @@ public class ChurchScreen extends GameScreen {
         itemList.add(hooka);
         itemList.add(ring);
 
-
         buffoon = new Buffoon(300, 920, world, resourceManager);
 
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
-        world.setContactListener(new MyContactListener(itemList, buffoon, game));
-        b2dr = new Box2DDebugRenderer();
-        b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);
-    
-
         npcs = new LinkedList<>();
 
         shaderHandler = new ShaderHandler(game.batch);
@@ -87,7 +77,7 @@ public class ChurchScreen extends GameScreen {
         npcs.add(new NPC(500, 1050, world, "nun", resourceManager, game));
         npcs.add(new NPC(150, 1020, world, "nun", resourceManager, game));
 
-        world.setContactListener(new MyContactListener(itemList, buffoon, game));
+        world.setContactListener(new MyContactListener(buffoon, game));
         b2dr = new Box2DDebugRenderer();
         new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
@@ -112,6 +102,14 @@ public class ChurchScreen extends GameScreen {
     }
 
     public void handleInput() {
+
+        if (game.cutScene != null) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                game.cutScene = null;
+            }
+            return;
+        }
+
         boolean input = false;
         boolean stopX = true;
         boolean stopY = true;
@@ -206,12 +204,23 @@ public class ChurchScreen extends GameScreen {
         }
         game.batch.setShader(null);
 
+        game.batch.setProjectionMatrix(gameCam.combined);
+
         buffoon.render(game.batch);
         for (NPC npc : npcs) {
             npc.render(game.batch);
         }
 
-        b2dr.render(world, gameCam.combined);
+        if (game.cutScene != null) {
+            game.batch.setProjectionMatrix(gameCam.combined);
+            game.batch.begin();
+            game.batch.draw(new Texture(Gdx.files.internal("Items/black.png")), gameCam.position.x - 2f, gameCam.position.y - 1.2f , 4, 1f);
+            game.batch.end();
+            game.batch.setProjectionMatrix(game.cutScene.stage.getCamera().combined);
+            game.cutScene.stage.draw();
+        }
+
+        game.batch.setProjectionMatrix(gameCam.combined);
     }
 
     @Override
