@@ -26,7 +26,10 @@ import com.mygdx.game.RoleCast.NPC;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
+import jdk.javadoc.internal.doclets.toolkit.taglets.snippet.Style;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CityScreen extends GameScreen {
@@ -37,9 +40,7 @@ public class CityScreen extends GameScreen {
     private Box2DDebugRenderer b2dr;
     private B2WorldHandler b2wh;
     private Buffoon buffoon;
-    private NPC merchant;
-    private NPC guard1;
-    private NPC guard2;
+    private LinkedList<NPC> npcs;
     private ArrayList<Item> itemList;
     private ShaderHandler shaderHandler;
 
@@ -61,11 +62,13 @@ public class CityScreen extends GameScreen {
         Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
         itemList.add(underwear);
 
+        npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);
         buffoon = new Buffoon(5640, 7520, world, resourceManager);
-        merchant = new NPC(5700, 7000, world, "merchant", resourceManager, game);
-        guard1 = new NPC(5626, 7519, world, "guard", resourceManager, game);
-        guard2 = new NPC(5700, 7519, world, "guard", resourceManager, game);
+        npcs.add(new NPC(5700, 7000, world, "merchant", resourceManager, game));
+        npcs.add(new NPC(5626, 7519, world, "guard", resourceManager, game));
+        npcs.add(new NPC(5700, 7519, world, "guard", resourceManager, game));
+        npcs.add(new NPC(4659, 7320, world, "farmer", resourceManager, game));
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
@@ -84,9 +87,9 @@ public class CityScreen extends GameScreen {
         gameCam.update();
         timer.update(delta);
         buffoon.update(delta);
-        merchant.update(delta);
-        guard1.update(delta);
-        guard2.update(delta);
+        for (NPC npc : npcs) {
+            npc.update(delta);
+        }
         shaderHandler.update(delta);
         System.out.println(buffoon.getPosition());
         if (HUD.getTime() == 17) game.changeScreen("castle");
@@ -183,12 +186,12 @@ public class CityScreen extends GameScreen {
         game.batch.setShader(null);
 
         buffoon.render(game.batch);
-        merchant.render(game.batch);
-        guard1.render(game.batch);
-        guard2.render(game.batch);
+        for (NPC npc : npcs) {
+            npc.render(game.batch);
+        }
 
 
-        //b2dr.render(world, gameCam.combined);
+        b2dr.render(world, gameCam.combined);
     }
 
     @Override

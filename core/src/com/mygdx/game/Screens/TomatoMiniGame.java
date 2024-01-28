@@ -26,14 +26,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class TomatoMiniGame extends GameScreen implements Subscriber {
 
     private MyTimer timer;
-    private MyTimer peekTimer;
-    private LOD game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private World world;    // World holding all the physical objects
     private ArrayList<Hole> holeList;
-    private HUD HUD;
-
+    
     private Texture backgroundTexture;
     private Sprite backgroundSprite;
 
@@ -50,14 +47,12 @@ public class TomatoMiniGame extends GameScreen implements Subscriber {
     private Tomato tomato;
     private Tomato newTomato;
 
-    private int coins;
     private int tomatoesLeft;
 
 
-    public TomatoMiniGame(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer peekTimer) {
+    public TomatoMiniGame(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
-        super(game, HUD, peekTimer);
-        coins = 0;
+        super(game, HUD, timer);
         tomatoesLeft = 10;
 
         // Creating tiled map
@@ -69,9 +64,6 @@ public class TomatoMiniGame extends GameScreen implements Subscriber {
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
-        timer = new MyTimer();
-        peekTimer = new MyTimer();
-
 
         holeList = new ArrayList<Hole>();
 
@@ -98,7 +90,7 @@ public class TomatoMiniGame extends GameScreen implements Subscriber {
         holeList.add(hole8);
         holeList.add(hole9);
 
-        peekTimer.start(3, null, this);
+        timer.start(3, null, this);
         
     }
 
@@ -110,7 +102,6 @@ public class TomatoMiniGame extends GameScreen implements Subscriber {
         gameCam.update();
 
         timer.update(delta);
-        peekTimer.update(delta);
         for(Hole hole : holeList) {
             hole.update(delta);
         }
@@ -131,12 +122,12 @@ public class TomatoMiniGame extends GameScreen implements Subscriber {
             if(foundHole != null) {
                 newTomato = new Tomato(world, 0, -100, foundHole);
 
-                newTomato.launchTomato(peekTimer, foundHole.getPosition(), foundHole);
+                newTomato.launchTomato(timer, foundHole.getPosition(), foundHole);
                 tomatoesLeft--;
 
                 if(foundHole.isBuffoonHere()) {
-                    coins++;
-                    foundHole.get_tomatoed(peekTimer);
+                    //coins++;
+                    foundHole.get_tomatoed(timer);
                 }
 
                 //tomato.resetCoords();
@@ -179,8 +170,8 @@ public class TomatoMiniGame extends GameScreen implements Subscriber {
         gamePort.update(width, height);
     }
     public void notify(String flag) {
-        randomBuffoon().peek(peekTimer);
-        peekTimer.start(3f, "peek", this);
+        randomBuffoon().peek(timer);
+        timer.start(3f, "peek", this);
     }
     // Returns random hole
     public Hole randomBuffoon() {

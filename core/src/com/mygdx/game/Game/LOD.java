@@ -39,6 +39,7 @@ public class LOD extends Game {
 	public void changeScreen(String tag) {
 		if (tag.equals("castle")) setScreen(castleScreen);
 		if (tag.equals("city")) setScreen(cityScreen);
+		if (tag.equals("church")) setScreen(churchScreen);
 		if (tag.equals("tomato")) setScreen(tomatoMiniGame);
 
 	}
