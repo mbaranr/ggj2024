@@ -78,6 +78,8 @@ public class ChurchScreen extends GameScreen {
 
         shaderHandler = new ShaderHandler(game.batch);
         npcs.add(new NPC(450, 1300, world, "nun", resourceManager, game));
+        npcs.add(new NPC(500, 1050, world, "nun", resourceManager, game));
+        npcs.add(new NPC(150, 1020, world, "nun", resourceManager, game));
 
         world.setContactListener(new MyContactListener(itemList, buffoon, game));
         b2dr = new Box2DDebugRenderer();
