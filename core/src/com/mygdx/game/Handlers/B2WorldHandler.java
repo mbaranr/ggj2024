@@ -48,6 +48,19 @@ public class B2WorldHandler {
             body.createFixture(fdef).setUserData("transparency");
         }
 
+        
+        for (RectangleMapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Constants.PPM, (rect.getY() + rect.getHeight() / 2) / Constants.PPM);
+            body = world.createBody(bdef);
+            shape.setAsBox((rect.getWidth() / 2) / Constants.PPM, (rect.getHeight() / 2) / Constants.PPM);
+            fdef.shape = shape;
+            fdef.isSensor = true;
+            fdef.filter.categoryBits = Constants.BIT_DOOR;
+            body.createFixture(fdef).setUserData("castle-to-city");
+        }
+
 
     }
 }
