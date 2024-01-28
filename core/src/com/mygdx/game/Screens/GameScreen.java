@@ -2,10 +2,8 @@ package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Logic.MyTimer;
-import com.mygdx.game.Scenes.CutScene;
 import com.mygdx.game.Scenes.HUD;
 
 public abstract class GameScreen implements Screen {

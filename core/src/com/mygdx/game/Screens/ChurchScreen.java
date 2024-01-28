@@ -103,9 +103,9 @@ public class ChurchScreen extends GameScreen {
 
     public void handleInput() {
 
-        if (game.cutScene != null) {
+        if (game.cutSceneActive) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-                game.cutScene = null;
+                game.cutSceneActive = false;
             }
             return;
         }
@@ -211,7 +211,7 @@ public class ChurchScreen extends GameScreen {
             npc.render(game.batch);
         }
 
-        if (game.cutScene != null) {
+        if (game.cutSceneActive) {
             game.batch.setProjectionMatrix(gameCam.combined);
             game.batch.begin();
             game.batch.draw(new Texture(Gdx.files.internal("Items/black.png")), gameCam.position.x - 2f, gameCam.position.y - 1.2f , 4, 1f);

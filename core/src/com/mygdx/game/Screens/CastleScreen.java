@@ -66,7 +66,7 @@ public class CastleScreen extends GameScreen {
         npcs.add(new NPC(206, 215, world, "guard", resourceManager, game));
 
         buffoon = new Buffoon(161, 70, world, resourceManager);
-        king = new King(160, 240, world, resourceManager);
+        king = new King(160, 240, world, resourceManager, game);
         world.setContactListener(new MyContactListener(buffoon, game));
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
@@ -92,9 +92,9 @@ public class CastleScreen extends GameScreen {
 
     public void handleInput() {
 
-        if (game.cutScene != null) {
+        if (game.cutSceneActive) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-                game.cutScene = null;
+                game.cutSceneActive = false;
             }
             return;
         }
@@ -203,7 +203,7 @@ public class CastleScreen extends GameScreen {
             npc.render(game.batch);
         }
 
-        if (game.cutScene != null) {
+        if (game.cutSceneActive) {
             game.batch.setProjectionMatrix(gameCam.combined);
             game.batch.begin();
             game.batch.draw(new Texture(Gdx.files.internal("Items/black.png")), gameCam.position.x - 2f, gameCam.position.y - 1.2f , 4, 1f);

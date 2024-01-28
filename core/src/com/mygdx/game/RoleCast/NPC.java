@@ -63,9 +63,18 @@ public class NPC extends B2Sprite {
     }
 
     public void interact() {
-//        if (name.equals("merchant")) game.cutScene = new CutScene(game.batch, "Ya want to buy some of my wine don't ya.");
-//        if (name.equals("nun")) game.cutScene = new CutScene(game.batch, "May god be with you.");
+        if (name.equals("merchant")) {
+            game.cutSceneActive = true;
+            game.cutScene.setText("Ya want to buy some of my wine don't ya.");
+        }
+        if (name.equals("nun")) {
+            game.cutSceneActive = true;
+            game.cutScene.setText("May god be with you.");
+        }
         if (name.equals("farmer")) game.changeScreen("tomato");
-//        if (name.equals("guard")) game.cutScene = new CutScene(game.batch, "....");
+        if (name.equals("guard")) {
+            game.cutSceneActive = true;
+            game.cutScene.setText("....");
+        }
     }
 }

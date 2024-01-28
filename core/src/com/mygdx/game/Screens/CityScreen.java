@@ -55,7 +55,7 @@ public class CityScreen extends GameScreen {
         gameCam.position.set(2, 77, 0);
 
         itemList = new LinkedList<>();
-        Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
+        Item underwear = new Item(5700, 7420, world, 0.6f, null, null, null, null, 1, "Items/underwear.png");
         Item fish = new Item(4196, 6282, world, 0.1f, null, null, null, null, 1, "Items/Dead_fish.png");
         Item poop = new Item(5570, 6684, world, 0.1f, null, null, null, null, 1, "Items/poo.png");
         Item squid = new Item(4022, 6681, world, 0.1f, null, null, null, null, 1, "Items/squid.png");
@@ -78,8 +78,6 @@ public class CityScreen extends GameScreen {
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
         HUD.start();
-
-        game.cutScene = new CutScene(game.batch, "Go make me laugh!");
     }
 
     @Override
@@ -104,9 +102,9 @@ public class CityScreen extends GameScreen {
         boolean stopX = true;
         boolean stopY = true;
 
-        if (game.cutScene != null) {
+        if (game.cutSceneActive) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-                game.cutScene = null;
+                game.cutSceneActive = false;
             }
             return;
         }
@@ -208,7 +206,7 @@ public class CityScreen extends GameScreen {
             npc.render(game.batch);
         }
 
-        if (game.cutScene != null) {
+        if (game.cutSceneActive) {
             game.batch.setProjectionMatrix(gameCam.combined);
             game.batch.begin();
             game.batch.draw(new Texture(Gdx.files.internal("Items/black.png")), gameCam.position.x - 2f, gameCam.position.y - 1.2f , 4, 1f);

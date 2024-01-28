@@ -25,6 +25,7 @@ public class LOD extends Game {
 	private MyTimer timer;
 	private HUD HUD;
 	public CutScene cutScene;
+	public boolean cutSceneActive;
 	private Music music1;
 	private  Music music2;
 	private Music music3;
@@ -33,9 +34,11 @@ public class LOD extends Game {
 	@Override
 	public void create () {
 
-		cutScene = null;
+		cutSceneActive = false;
 
 		batch = new SpriteBatch();
+		cutScene = new CutScene(batch, "Go make me laugh!");
+
 		resourceManager = new ResourceManager();
 		timer = new MyTimer();
 		HUD = new HUD(timer, batch);
@@ -92,7 +95,6 @@ public class LOD extends Game {
 			music1.stop();
 			music2.play();
 			music3.stop();
-			setScreen(churchScreen);
 			setScreen(tomatoMiniGame);
 		}
 	}
