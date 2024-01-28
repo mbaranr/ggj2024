@@ -46,8 +46,6 @@ public class TomatoMiniGame implements Screen,Subscriber {
     private final OrthogonalTiledMapRenderer renderer;
     private final World world;    // World holding all the physical objects
     private final Box2DDebugRenderer b2dr;
-    private final B2WorldHandler b2wh;
-
     private final ResourceManager resourceManager;
     private ArrayList<Hole> holeList;
 
@@ -94,8 +92,6 @@ public class TomatoMiniGame implements Screen,Subscriber {
         timer = new MyTimer();
         peekTimer = new MyTimer();
         b2dr = new Box2DDebugRenderer();
-        b2wh = new B2WorldHandler(world, null, resourceManager, timer, eidAllocator, game.batch, game);
-
 
         holeList = new ArrayList<Hole>();
 
