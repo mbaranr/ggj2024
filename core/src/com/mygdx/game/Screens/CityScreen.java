@@ -44,6 +44,7 @@ public class CityScreen implements Screen {
     private final NPC merchant;
     private final NPC guard1;
     private final NPC guard2;
+    private final NPC farmer;
     private final ArrayList<Item> itemList;
     private final ShaderHandler shaderHandler;
 
@@ -75,6 +76,7 @@ public class CityScreen implements Screen {
         merchant = new NPC(5700, 7000, world, "merchant", resourceManager);
         guard1 = new NPC(5626, 7519, world, "guard", resourceManager);
         guard2 = new NPC(5700, 7519, world, "guard", resourceManager);
+        farmer = new NPC(4653, 7333, world, "farmer", resourceManager);
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
@@ -96,6 +98,7 @@ public class CityScreen implements Screen {
         merchant.update(delta);
         guard1.update(delta);
         guard2.update(delta);
+        farmer.update(delta);
         shaderHandler.update(delta);
         System.out.println(buffoon.getPosition());
         if (HUD.getTime() == 17) game.changeScreen("castle");
@@ -191,7 +194,7 @@ public class CityScreen implements Screen {
         merchant.render(game.batch);
         guard1.render(game.batch);
         guard2.render(game.batch);
-
+        farmer.render(game.batch);
 
         //b2dr.render(world, gameCam.combined);
     }
