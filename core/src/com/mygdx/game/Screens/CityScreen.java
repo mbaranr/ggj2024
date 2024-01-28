@@ -21,11 +21,9 @@ import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.RoleCast.NPC;
-import com.mygdx.game.Scenes.CutScene;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class CityScreen extends GameScreen {
@@ -55,11 +53,11 @@ public class CityScreen extends GameScreen {
         gameCam.position.set(2, 77, 0);
 
         itemList = new LinkedList<>();
-        Item underwear = new Item(5700, 7420, world, 0.6f, null, null, null, null, 1, "Items/underwear.png");
-        Item fish = new Item(4196, 6282, world, 0.1f, null, null, null, null, 1, "Items/Dead_fish.png");
-        Item poop = new Item(5570, 6684, world, 0.1f, null, null, null, null, 1, "Items/poo.png");
-        Item squid = new Item(4022, 6681, world, 0.1f, null, null, null, null, 1, "Items/squid.png");
-        Item shroom = new Item(4348, 6660, world, 0.1f, null, null, null, null, 1, "Items/shroom.png");
+        Item underwear = new Item(5700, 7420, world, 0.6f, null, null, "underwear", "fish", 1, "Items/underwear.png");
+        Item fish = new Item(4196, 6282, world, 0.1f, null, null, "fish", "underwear", 1, "Items/Dead_fish.png");
+        Item poop = new Item(5570, 6684, world, 0.1f, null, null, "poop", "", 1, "Items/poo.png");
+        Item squid = new Item(4022, 6681, world, 0.1f, null, null, "squid", "", 1, "Items/squid.png");
+        Item shroom = new Item(4348, 6660, world, 0.1f, null, null, "shroom", "", 1, "Items/shroom.png");
         itemList.add(underwear);
         itemList.add(fish);
         itemList.add(poop);
@@ -68,7 +66,7 @@ public class CityScreen extends GameScreen {
 
         npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);
-        buffoon = new Buffoon(5650, 7500, world, resourceManager);
+        buffoon = new Buffoon(5650, 7500, world, resourceManager, game);
         npcs.add(new NPC(5700, 7000, world, "merchant", resourceManager, game));
         npcs.add(new NPC(5626, 7519, world, "guard", resourceManager, game));
         npcs.add(new NPC(5700, 7519, world, "guard", resourceManager, game));
@@ -158,7 +156,6 @@ public class CityScreen extends GameScreen {
             LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
-                    System.out.println(2233);
                     buffoon.getPlayerList().add(item);
                     toRemove.add(item);
                 }

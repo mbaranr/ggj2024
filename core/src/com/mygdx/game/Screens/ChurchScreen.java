@@ -65,7 +65,7 @@ public class ChurchScreen extends GameScreen {
         itemList.add(hooka);
         itemList.add(ring);
 
-        buffoon = new Buffoon(300, 920, world, resourceManager);
+        buffoon = new Buffoon(300, 920, world, resourceManager, game);
 
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
@@ -163,7 +163,6 @@ public class ChurchScreen extends GameScreen {
             LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
-                    System.out.println(2233);
                     buffoon.getPlayerList().add(item);
                     toRemove.add(item);
                 }

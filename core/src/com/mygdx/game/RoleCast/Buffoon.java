@@ -3,6 +3,7 @@ package com.mygdx.game.RoleCast;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
@@ -10,7 +11,6 @@ import com.mygdx.game.Tools.ResourceManager;
 import java.util.LinkedList;
 
 public class Buffoon extends B2Sprite {
-    private LinkedList<Item> playerItems;
     private Constants.ASTATE currAState;     // Current animation state
     private Constants.ASTATE prevAState;     // Previous animation state
     private float currAlpha;
@@ -18,9 +18,11 @@ public class Buffoon extends B2Sprite {
     private final ResourceManager resourceManager;
     private NPC targetnpc;
     private King king;
+    private LOD game;
 
-    public Buffoon(int x, int y, World world, ResourceManager resourceManager) {
+    public Buffoon(int x, int y, World world, ResourceManager resourceManager, LOD game) {
 
+        this.game = game;
         this.resourceManager = resourceManager;
         currAState = Constants.ASTATE.IDLE_DOWN;
         prevAState = Constants.ASTATE.IDLE_DOWN;
@@ -45,10 +47,9 @@ public class Buffoon extends B2Sprite {
         polygonShape.setAsBox(8 / Constants.PPM, 16 / Constants.PPM, new Vector2(0, 0), 0);
         fdef.shape = polygonShape;
         fdef.friction = 0;
-        fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM | Constants.BIT_TRANSPARENCY | Constants.BIT_NPC | Constants.BIT_DOOR;
+        fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM | Constants.BIT_TRANSPARENCY | Constants.BIT_NPC | Constants.BIT_DOOR | Constants.BIT_KING;
         b2body.createFixture(fdef).setUserData("buffoon");
 
-        playerItems = new LinkedList<Item>();
     }
 
     public void loadSprites() {
@@ -180,11 +181,11 @@ public class Buffoon extends B2Sprite {
     }
 
     public void addItem(Item item) {
-        playerItems.add(item);
+        game.inventory.add(item);
     }
 
     public LinkedList<Item> getPlayerList() {
-        return this.playerItems;
+        return game.inventory;
     }
 
     public void setTargetnpc(NPC npc) {
@@ -200,8 +201,8 @@ public class Buffoon extends B2Sprite {
     }
 
     public void giveItems() {
-        king.presentItems(playerItems);
-        playerItems.clear();
+        king.presentItems(game.inventory);
+        game.inventory.clear();
     }
 
     public NPC getTargetnpc() {

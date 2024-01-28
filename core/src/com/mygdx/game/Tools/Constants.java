@@ -25,4 +25,5 @@ public class Constants {
     public static final short BIT_TRANSPARENCY = 16;
     public static final short BIT_NPC = 32;
     public static final short BIT_DOOR = 64;
+    public static final short BIT_KING = 128;
 }
