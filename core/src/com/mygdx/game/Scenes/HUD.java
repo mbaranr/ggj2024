@@ -40,7 +40,7 @@ public class HUD implements Subscriber {
         hour = 9;
         minutes = 0;
 
-        timeLabel = new Label(String.format("%02d%s", hour % 12 == 0 ? 12 : hour % 12, hour < 12 ? " AM" : " PM"), new Label.LabelStyle(FancyFontHelper.getInstance().getFont(Color.RED, 60), new Color(0.5f, 1, 0, 1)));
+        timeLabel = new Label(String.format("%02d%s", hour % 12 == 0 ? 12 : hour % 12, hour < 12 ? " AM" : " PM"), new Label.LabelStyle(FancyFontHelper.getInstance().getFont(Color.RED, 60), new Color(0.5f, 0, 0, 1)));
         timeLabel.setAlignment(Align.left);
 
         coinLabel = new Label(Integer.toHexString(coinCount), new Label.LabelStyle(FancyFontHelper.getInstance().getFont(Color.YELLOW, 30), new Color(1, 1, 1, 1)));
@@ -80,8 +80,8 @@ public class HUD implements Subscriber {
     public int getTime() {
         return hour;
     }
-    public void updateCoinCount(int newCoinCount) {
-        coinCount = newCoinCount;
+    public void updateCoinCount() {
+        coinCount++;
         coinLabel.setText(coinCount);
     }
 }

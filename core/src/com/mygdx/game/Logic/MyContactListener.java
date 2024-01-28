@@ -2,11 +2,10 @@ package com.mygdx.game.Logic;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
+import com.mygdx.game.RoleCast.NPC;
 
 public class MyContactListener implements ContactListener {
 
@@ -26,9 +25,10 @@ public class MyContactListener implements ContactListener {
     public void beginContact(Contact contact) {
         handleFixtures(contact);
 
-        if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
+        if (fa.getUserData() instanceof NPC || fb.getUserData() instanceof NPC) {
+            buffoon.setTargetnpc((NPC) (fa.getUserData() instanceof NPC ? fa.getUserData() : fb.getUserData()));
+        } else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
             for (Item item : itemList) {
-
                 if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
                     buffoon.addItem(item);
                     item.setGrabbable(true);
@@ -40,14 +40,15 @@ public class MyContactListener implements ContactListener {
             buffoon.setCurrAlpha(0.5f);
         }
 
-
     }
 
     @Override
     public void endContact(Contact contact) {
         handleFixtures(contact);
 
-        if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
+        if (fa.getUserData() instanceof NPC || fb.getUserData() instanceof NPC) {
+            buffoon.setTargetnpc(null);
+        } else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
             for (Item item : itemList) {
 
                 if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {

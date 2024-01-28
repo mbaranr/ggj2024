@@ -5,49 +5,34 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Game.LOD;
-import com.mygdx.game.Handlers.B2WorldHandler;
 import com.mygdx.game.Interfaces.Subscriber;
-import com.mygdx.game.Logic.MyContactListener;
 import com.mygdx.game.Logic.MyTimer;
-import com.mygdx.game.Objects.Item;
-import com.mygdx.game.RoleCast.Buffoon;
-import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
 import com.mygdx.game.Objects.Hole;
 import com.mygdx.game.Objects.Tomato;
-import java.lang.Math;
-
+import com.mygdx.game.Scenes.HUD;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class TomatoMiniGame implements Screen,Subscriber {
+public class TomatoMiniGame extends GameScreen implements Subscriber {
 
-    private final MyTimer timer;
-    private final MyTimer peekTimer;
-    private final LOD game;
-    private final OrthographicCamera gameCam;
-    private final Viewport gamePort;
-    private final OrthogonalTiledMapRenderer renderer;
-    private final World world;    // World holding all the physical objects
-    private final Box2DDebugRenderer b2dr;
-    private final ResourceManager resourceManager;
+    private MyTimer timer;
+    private MyTimer peekTimer;
+    private LOD game;
+    private OrthographicCamera gameCam;
+    private Viewport gamePort;
+    private World world;    // World holding all the physical objects
     private ArrayList<Hole> holeList;
+    private HUD HUD;
 
     private Texture backgroundTexture;
     private Sprite backgroundSprite;
@@ -69,29 +54,24 @@ public class TomatoMiniGame implements Screen,Subscriber {
     private int tomatoesLeft;
 
 
-    public TomatoMiniGame(LOD game, ResourceManager resourceManager) {
+    public TomatoMiniGame(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer peekTimer) {
 
+        super(game, HUD, peekTimer);
         coins = 0;
-        tomatoesLeft = 100;
-        this.game = game;
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
-        this.resourceManager = new ResourceManager();
-
+        tomatoesLeft = 10;
 
         // Creating tiled map
         backgroundTexture = new Texture("stone_background.png"); 
         backgroundSprite = new Sprite(backgroundTexture);
 
-        renderer = new OrthogonalTiledMapRenderer(null, 1 / Constants.PPM);
+
         world = new World(new Vector2(0, 0), true);
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
-
-        AtomicInteger eidAllocator = new AtomicInteger();
         timer = new MyTimer();
         peekTimer = new MyTimer();
-        b2dr = new Box2DDebugRenderer();
+
 
         holeList = new ArrayList<Hole>();
 
@@ -121,9 +101,6 @@ public class TomatoMiniGame implements Screen,Subscriber {
         peekTimer.start(3, null, this);
         
     }
-
-    @Override
-    public void show() {}
 
     public void update(float delta) {
 
@@ -167,6 +144,7 @@ public class TomatoMiniGame implements Screen,Subscriber {
         }
     }
 
+    @Override
     public void render(float delta) {
 
         update(delta);
@@ -200,25 +178,10 @@ public class TomatoMiniGame implements Screen,Subscriber {
     public void resize(int width, int height) {
         gamePort.update(width, height);
     }
-
     public void notify(String flag) {
         randomBuffoon().peek(peekTimer);
         peekTimer.start(3f, "peek", this);
     }
-
-    @Override
-    public void pause() {}
-
-    @Override
-    public void resume() {}
-
-    @Override
-    public void hide() {}
-
-    @Override
-    public void dispose() {}
-
-
     // Returns random hole
     public Hole randomBuffoon() {
 
@@ -231,8 +194,6 @@ public class TomatoMiniGame implements Screen,Subscriber {
         }
         return null;
     }
-
-
     // Im sorry for this. @Gines
     public Hole hardCodeHoles(Vector2 mouseCords) {
 
@@ -240,7 +201,6 @@ public class TomatoMiniGame implements Screen,Subscriber {
             return hole7;
         } else if((mouseCords.x >= 8.89 && mouseCords.x <= 10.31) && (mouseCords.y <= 1.81 && mouseCords.y >= 1)) {
             return hole8;
-
         } else if((mouseCords.x >= 16.82 && mouseCords.x <= 18.25) && (mouseCords.y <= 1.81 && mouseCords.y >= 1)) {
             return hole9;
         }else if((mouseCords.x >= 1 && mouseCords.x <= 2.3) && (mouseCords.y <= 4.6 && mouseCords.y >= 3.8)) {
@@ -258,4 +218,20 @@ public class TomatoMiniGame implements Screen,Subscriber {
         }
         return null;
     }
+
+    @Override
+    public void show() {}
+
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void hide() {}
+
+    @Override
+    public void dispose() {}
+
 }

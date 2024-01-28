@@ -26,33 +26,29 @@ import com.mygdx.game.RoleCast.NPC;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
-
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class CityScreen implements Screen {
-    private final LOD game;
-    private final OrthographicCamera gameCam;
-    private final Viewport gamePort;
-    private final OrthogonalTiledMapRenderer renderer;
-    private final World world;    // World holding all the physical objects
-    private final Box2DDebugRenderer b2dr;
-    private final B2WorldHandler b2wh;
-    private final Buffoon buffoon;
-    private final MyTimer timer;
-    private final HUD HUD;
-    private final NPC merchant;
-    private final NPC guard1;
-    private final NPC guard2;
-    private final ArrayList<Item> itemList;
-    private final ShaderHandler shaderHandler;
+public class CityScreen extends GameScreen {
+    private LOD game;
+    private OrthographicCamera gameCam;
+    private Viewport gamePort;
+    private OrthogonalTiledMapRenderer renderer;
+    private World world;    // World holding all the physical objects
+    private Box2DDebugRenderer b2dr;
+    private B2WorldHandler b2wh;
+    private Buffoon buffoon;
+    private MyTimer timer;
+    private HUD HUD;
+    private NPC merchant;
+    private NPC guard1;
+    private NPC guard2;
+    private ArrayList<Item> itemList;
+    private ShaderHandler shaderHandler;
 
     public CityScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
-        this.game = game;
-        this.timer = timer;
-        this.HUD = HUD;
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
+        super(game, HUD, timer);
 
         // Creating tiled map
         TmxMapLoader mapLoader = new TmxMapLoader();
@@ -64,21 +60,19 @@ public class CityScreen implements Screen {
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
 
-        AtomicInteger eidAllocator = new AtomicInteger();
-
         itemList = new ArrayList<>();
         Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
         itemList.add(underwear);
 
         shaderHandler = new ShaderHandler(game.batch);
         buffoon = new Buffoon(5640, 7520, world, resourceManager);
-        merchant = new NPC(5700, 7000, world, "merchant", resourceManager);
-        guard1 = new NPC(5626, 7519, world, "guard", resourceManager);
-        guard2 = new NPC(5700, 7519, world, "guard", resourceManager);
+        merchant = new NPC(5700, 7000, world, "merchant", resourceManager, game);
+        guard1 = new NPC(5626, 7519, world, "guard", resourceManager, game);
+        guard2 = new NPC(5700, 7519, world, "guard", resourceManager, game);
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
-        b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, game.batch, game);     //Creating world
+        b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
         HUD.start();
     }
@@ -158,6 +152,10 @@ public class CityScreen implements Screen {
                     System.out.println("Item was grabbed by the player");
                 }
             }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            if (buffoon.getTargetnpc() != null) buffoon.getTargetnpc().interact();
         }
 
         if (!input) buffoon.stop();
