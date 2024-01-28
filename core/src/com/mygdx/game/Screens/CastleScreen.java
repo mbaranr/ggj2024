@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -36,7 +37,7 @@ public class CastleScreen extends GameScreen {
     private B2WorldHandler b2wh;
     private Buffoon buffoon;
     private King king;
-    private ArrayList<Item> itemList;
+    private LinkedList<Item> itemList;
     private LinkedList<NPC> npcs;
     private ShaderHandler shaderHandler;
 
@@ -54,17 +55,19 @@ public class CastleScreen extends GameScreen {
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
 
-        itemList = new ArrayList<>();
+        Item queen = new Item(306, 19, world, 0.1f, null, null, null, null, 1, "Items/queen_picture.png");
+        itemList = new LinkedList<>();
+
+        itemList.add(queen);
 
         npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);
         npcs.add(new NPC(111, 215, world, "guard", resourceManager, game));
         npcs.add(new NPC(206, 215, world, "guard", resourceManager, game));
 
-        buffoon = new Buffoon(161, 18, world, resourceManager);
-        king = new King(160, 240, world, resourceManager);
-
-        world.setContactListener(new MyContactListener(itemList, buffoon));
+        buffoon = new Buffoon(161, 70, world, resourceManager);
+        king = new King(160, 240, world, resourceManager, game);
+        world.setContactListener(new MyContactListener(buffoon, game));
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
     }
@@ -75,7 +78,6 @@ public class CastleScreen extends GameScreen {
 
     public void update(float delta) {
         handleInput();
-        System.out.println(buffoon.getPosition());
         world.step(1/60f, 6, 2);
         gameCam.position.set(buffoon.getPosition().x, buffoon.getPosition().y, 0);
         gameCam.update();
@@ -89,6 +91,14 @@ public class CastleScreen extends GameScreen {
     }
 
     public void handleInput() {
+
+        if (game.cutSceneActive) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                game.cutSceneActive = false;
+            }
+            return;
+        }
+
         boolean input = false;
         boolean stopX = true;
         boolean stopY = true;
@@ -142,11 +152,14 @@ public class CastleScreen extends GameScreen {
             LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
+                    System.out.println(2233);
                     buffoon.getPlayerList().add(item);
                     toRemove.add(item);
                 }
             }
-            itemList.remove(toRemove);
+            for (Item item : toRemove) {
+                itemList.remove(item);
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
@@ -170,9 +183,6 @@ public class CastleScreen extends GameScreen {
         renderer.setView(gameCam);
         renderer.render();
 
-        game.batch.setProjectionMatrix(HUD.stage.getCamera().combined);
-        HUD.stage.draw();
-
         game.batch.setProjectionMatrix(gameCam.combined);
 
         game.batch.setShader(shaderHandler.getItemShader());
@@ -181,15 +191,28 @@ public class CastleScreen extends GameScreen {
         }
         game.batch.setShader(null);
 
-        for (NPC npc : npcs) {
-            npc.render(game.batch);
-        }
+        game.batch.setProjectionMatrix(HUD.stage.getCamera().combined);
+        HUD.stage.draw();
+
+        game.batch.setProjectionMatrix(gameCam.combined);
 
         buffoon.render(game.batch);
         king.render(game.batch);
 
-        b2dr.render(world, gameCam.combined);
+        for (NPC npc : npcs) {
+            npc.render(game.batch);
+        }
 
+        if (game.cutSceneActive) {
+            game.batch.setProjectionMatrix(gameCam.combined);
+            game.batch.begin();
+            game.batch.draw(new Texture(Gdx.files.internal("Items/black.png")), gameCam.position.x - 2f, gameCam.position.y - 1.2f , 4, 1f);
+            game.batch.end();
+            game.batch.setProjectionMatrix(game.cutScene.stage.getCamera().combined);
+            game.cutScene.stage.draw();
+        }
+
+        game.batch.setProjectionMatrix(gameCam.combined);
     }
 
     @Override

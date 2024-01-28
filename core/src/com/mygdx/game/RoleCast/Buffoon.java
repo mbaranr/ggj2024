@@ -10,7 +10,6 @@ import com.mygdx.game.Tools.ResourceManager;
 import java.util.LinkedList;
 
 public class Buffoon extends B2Sprite {
-
     private LinkedList<Item> playerItems;
     private Constants.ASTATE currAState;     // Current animation state
     private Constants.ASTATE prevAState;     // Previous animation state
@@ -46,7 +45,7 @@ public class Buffoon extends B2Sprite {
         polygonShape.setAsBox(8 / Constants.PPM, 16 / Constants.PPM, new Vector2(0, 0), 0);
         fdef.shape = polygonShape;
         fdef.friction = 0;
-        fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM | Constants.BIT_TRANSPARENCY | Constants.BIT_NPC;
+        fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM | Constants.BIT_TRANSPARENCY | Constants.BIT_NPC | Constants.BIT_DOOR;
         b2body.createFixture(fdef).setUserData("buffoon");
 
         playerItems = new LinkedList<Item>();
@@ -93,6 +92,7 @@ public class Buffoon extends B2Sprite {
     }
 
     public void update(float delta) {
+
         if (currAState != prevAState) {
             prevAState = currAState;
             handleAnimation();

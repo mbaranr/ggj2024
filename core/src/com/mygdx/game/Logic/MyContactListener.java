@@ -1,8 +1,10 @@
 package com.mygdx.game.Logic;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.RoleCast.NPC;
@@ -12,12 +14,11 @@ public class MyContactListener implements ContactListener {
 
     private Fixture fa;
     private Fixture fb;
-    private ArrayList<Item> itemList;
     private Buffoon buffoon;
     private int transparencyContact;
-
-    public MyContactListener(ArrayList<Item> itemList, Buffoon buffoon) {
-        this.itemList = itemList;
+    private LOD game;
+    public MyContactListener(Buffoon buffoon, LOD game) {
+        this.game = game;
         this.buffoon = buffoon;
         transparencyContact = 0;
     }
@@ -30,17 +31,24 @@ public class MyContactListener implements ContactListener {
             buffoon.setTargetnpc((NPC) (fa.getUserData() instanceof NPC ? fa.getUserData() : fb.getUserData()));
         } else if (fa.getUserData() instanceof King || fb.getUserData() instanceof King) {
             buffoon.setKing((King) (fa.getUserData() instanceof King ? fa.getUserData() : fb.getUserData()));
-        }else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
-            for (Item item : itemList) {
-                if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
-                    buffoon.addItem(item);
-                    item.setGrabbable(true);
-                }
-
+        }else if (fa.getUserData() instanceof Item || fa.getUserData() instanceof Item) {
+            if (fa.getUserData() instanceof Item) {
+                ((Item) fa.getUserData()).setGrabbable(true);
+            } else {
+                ((Item) fb.getUserData()).setGrabbable(true);
             }
         } else if (fa.getUserData().equals("transparency") || fb.getUserData().equals("transparency")) {
             transparencyContact++;
             buffoon.setCurrAlpha(0.5f);
+
+        } else if (fa.getUserData().equals("castle-entrance") || fb.getUserData().equals("castle-entrance")) {
+            game.changeScreen("castle");
+        } else if (fa.getUserData().equals("church-entrance") || fb.getUserData().equals("church-entrance")) {
+            game.changeScreen("church");
+
+        } else if ((fa.getUserData().equals("castle-exit") || fb.getUserData().equals("castle-exit"))
+        || (fa.getUserData().equals("church-exit") || fb.getUserData().equals("church-exit"))) {
+            game.changeScreen("city");
         }
 
     }
@@ -53,13 +61,11 @@ public class MyContactListener implements ContactListener {
             buffoon.setTargetnpc(null);
         } else if (fa.getUserData() instanceof King || fb.getUserData() instanceof King) {
             buffoon.setKing(null);
-        }else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
-            for (Item item : itemList) {
-
-                if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
-                    item.setGrabbable(false);
-                }
-
+        } else if (fa.getUserData() instanceof Item || fa.getUserData() instanceof Item) {
+            if (fa.getUserData() instanceof Item) {
+                ((Item) fa.getUserData()).setGrabbable(false);
+            } else {
+                ((Item) fb.getUserData()).setGrabbable(false);
             }
         } else if (fa.getUserData().equals("transparency") || fb.getUserData().equals("transparency")) {
             transparencyContact--;

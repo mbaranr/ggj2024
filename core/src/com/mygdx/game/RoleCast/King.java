@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
@@ -22,10 +23,13 @@ public class King extends B2Sprite {
     private Constants.COMEDYTYPE favouredType;
     private final Constants.COMEDYTYPE[] comedytypes;
     private final ResourceManager resourceManager;
+    private final LOD game;
 
-    public King(int x, int y, World world, ResourceManager resourceManager) {
+    public King(int x, int y, World world, ResourceManager resourceManager, LOD game) {
 
         this.resourceManager = resourceManager;
+        this.game = game;
+
         laughMeter = 0;
         funCalculator = new FunCalculator();
 
@@ -103,6 +107,9 @@ public class King extends B2Sprite {
 
     public void presentItems(LinkedList<Item> items) {
         laughMeter += funCalculator.evaluate(items, favouredType);
+        if (laughMeter > 0.5) {
+            game.cutScene.setText("HA! HA! HA!");
+        }
     }
 
 }

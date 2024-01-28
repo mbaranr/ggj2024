@@ -63,7 +63,6 @@ public class Tomato extends B2Sprite implements Subscriber {
         //fdef.filter.categoryBits = Constants.BIT_ITEM;
         b2body.createFixture(fdef).setUserData("tomato");
 
-        System.out.println(this.getPosition());
 
     }
 
@@ -81,7 +80,6 @@ public class Tomato extends B2Sprite implements Subscriber {
         directedHole = thisHole;
 
         Vector2 tomatoVector = tomatoVector();
-        System.out.println("Hole: " + hole);
 
         Vector2 directionVector = new Vector2((hole.x - tomatoVector.x), (hole.y - tomatoVector.y));
         directionVector = directionVector.nor().scl(14.0f);

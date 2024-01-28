@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -20,6 +21,7 @@ import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.RoleCast.NPC;
+import com.mygdx.game.Scenes.CutScene;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
@@ -35,7 +37,7 @@ public class CityScreen extends GameScreen {
     private B2WorldHandler b2wh;
     private Buffoon buffoon;
     private LinkedList<NPC> npcs;
-    private ArrayList<Item> itemList;
+    private LinkedList<Item> itemList;
     private ShaderHandler shaderHandler;
 
     public CityScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
@@ -52,19 +54,26 @@ public class CityScreen extends GameScreen {
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
 
-        itemList = new ArrayList<>();
-        Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
+        itemList = new LinkedList<>();
+        Item underwear = new Item(5700, 7420, world, 0.6f, null, null, null, null, 1, "Items/underwear.png");
+        Item fish = new Item(4196, 6282, world, 0.1f, null, null, null, null, 1, "Items/Dead_fish.png");
+        Item poop = new Item(5570, 6684, world, 0.1f, null, null, null, null, 1, "Items/poo.png");
+        Item squid = new Item(4022, 6681, world, 0.1f, null, null, null, null, 1, "Items/squid.png");
+        Item shroom = new Item(4348, 6660, world, 0.1f, null, null, null, null, 1, "Items/shroom.png");
         itemList.add(underwear);
+        itemList.add(fish);
+        itemList.add(poop);
+        itemList.add(squid);
+        itemList.add(shroom);
 
         npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);
-        buffoon = new Buffoon(5640, 7520, world, resourceManager);
+        buffoon = new Buffoon(5650, 7500, world, resourceManager);
         npcs.add(new NPC(5700, 7000, world, "merchant", resourceManager, game));
         npcs.add(new NPC(5626, 7519, world, "guard", resourceManager, game));
         npcs.add(new NPC(5700, 7519, world, "guard", resourceManager, game));
         npcs.add(new NPC(4659, 7320, world, "farmer", resourceManager, game));
-
-        world.setContactListener(new MyContactListener(itemList, buffoon));
+        world.setContactListener(new MyContactListener(buffoon, game));
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
@@ -85,7 +94,6 @@ public class CityScreen extends GameScreen {
             npc.update(delta);
         }
         shaderHandler.update(delta);
-        System.out.println(buffoon.getPosition());
         if (HUD.getTime() == 17) game.changeScreen("castle");
     }
 
@@ -93,6 +101,13 @@ public class CityScreen extends GameScreen {
         boolean input = false;
         boolean stopX = true;
         boolean stopY = true;
+
+        if (game.cutSceneActive) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                game.cutSceneActive = false;
+            }
+            return;
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             input = true;
@@ -143,11 +158,14 @@ public class CityScreen extends GameScreen {
             LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
+                    System.out.println(2233);
                     buffoon.getPlayerList().add(item);
                     toRemove.add(item);
                 }
             }
-            itemList.remove(toRemove);
+            for (Item item : toRemove) {
+                itemList.remove(item);
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
@@ -181,12 +199,23 @@ public class CityScreen extends GameScreen {
         }
         game.batch.setShader(null);
 
+        game.batch.setProjectionMatrix(gameCam.combined);
+
         buffoon.render(game.batch);
         for (NPC npc : npcs) {
             npc.render(game.batch);
         }
 
-        b2dr.render(world, gameCam.combined);
+        if (game.cutSceneActive) {
+            game.batch.setProjectionMatrix(gameCam.combined);
+            game.batch.begin();
+            game.batch.draw(new Texture(Gdx.files.internal("Items/black.png")), gameCam.position.x - 2f, gameCam.position.y - 1.2f , 4, 1f);
+            game.batch.end();
+            game.batch.setProjectionMatrix(game.cutScene.stage.getCamera().combined);
+            game.cutScene.stage.draw();
+        }
+
+        game.batch.setProjectionMatrix(gameCam.combined);
     }
 
     @Override

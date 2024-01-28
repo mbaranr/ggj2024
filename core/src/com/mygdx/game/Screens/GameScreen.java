@@ -19,7 +19,6 @@ public abstract class GameScreen implements Screen {
         this.HUD = HUD;
 
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
-        
     }
 
     public abstract void render(float delta);

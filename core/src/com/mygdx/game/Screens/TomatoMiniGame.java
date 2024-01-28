@@ -125,11 +125,10 @@ public class TomatoMiniGame extends GameScreen implements Subscriber {
                 tomatoesLeft--;
 
                 if(foundHole.isBuffoonHere()) {
-                    //coins++;
+                    HUD.updateCoinCount();
                     foundHole.get_tomatoed(timer);
                 }
 
-                //tomato.resetCoords();
             }
         }
     }
