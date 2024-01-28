@@ -66,9 +66,9 @@ public class CityScreen extends GameScreen {
 
         shaderHandler = new ShaderHandler(game.batch);
         buffoon = new Buffoon(5640, 7520, world, resourceManager);
-        merchant = new NPC(5700, 7000, world, "merchant", resourceManager);
-        guard1 = new NPC(5626, 7519, world, "guard", resourceManager);
-        guard2 = new NPC(5700, 7519, world, "guard", resourceManager);
+        merchant = new NPC(5700, 7000, world, "merchant", resourceManager, game);
+        guard1 = new NPC(5626, 7519, world, "guard", resourceManager, game);
+        guard2 = new NPC(5700, 7519, world, "guard", resourceManager, game);
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
