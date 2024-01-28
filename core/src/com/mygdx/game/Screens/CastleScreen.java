@@ -54,7 +54,10 @@ public class CastleScreen extends GameScreen {
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
 
+        Item queen = new Item(306, 19, world, 0.1f, null, null, null, null, 1, "Items/queen_picture.png");
         itemList = new LinkedList<>();
+
+        itemList.add(queen);
 
         npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);

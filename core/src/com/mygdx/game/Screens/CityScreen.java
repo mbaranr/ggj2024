@@ -54,9 +54,16 @@ public class CityScreen extends GameScreen {
 
         itemList = new LinkedList<>();
         Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
-
+        Item fish = new Item(4196, 6282, world, 0.1f, null, null, null, null, 1, "Items/Dead_fish.png");
+        Item poop = new Item(5570, 6684, world, 0.1f, null, null, null, null, 1, "Items/poo.png");
+        Item squid = new Item(4022, 6681, world, 0.1f, null, null, null, null, 1, "Items/squid.png");
+        Item shroom = new Item(4348, 6660, world, 0.1f, null, null, null, null, 1, "Items/shroom.png");
 
         itemList.add(underwear);
+        itemList.add(fish);
+        itemList.add(poop);
+        itemList.add(squid);
+        itemList.add(shroom);
 
         npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);

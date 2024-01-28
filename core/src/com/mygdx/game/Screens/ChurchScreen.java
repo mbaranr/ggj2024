@@ -63,6 +63,13 @@ public class ChurchScreen extends GameScreen {
 
         // Buffoon stuff
         itemList = new LinkedList<>();
+        Item hooka = new Item(1025, 1126, world, 0.1f, null, null, null, null, 1, "Items/Hookah.png");
+        Item ring = new Item(1025, 1126, world, 0.1f, null, null, null, null, 1, "Items/Ring_withshit.png");
+
+        itemList.add(hooka);
+        itemList.add(ring);
+
+
         buffoon = new Buffoon(300, 920, world, resourceManager);
 
         gameCam = new OrthographicCamera();
@@ -73,7 +80,6 @@ public class ChurchScreen extends GameScreen {
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);
     
 
-        itemList = new LinkedList<>();
         npcs = new LinkedList<>();
 
         shaderHandler = new ShaderHandler(game.batch);
