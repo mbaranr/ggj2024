@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector4;
 
@@ -14,7 +15,7 @@ public class ShaderHandler {
 
     public ShaderHandler(SpriteBatch batch) {
         time = 0;
-        itemShader = new ShaderProgram(Gdx.files.internal("Shaders/Vertex.glsl").readString(), Gdx.files.internal("Shaders/Shimmer.glsl").readString());
+        itemShader = new ShaderProgram(Gdx.files.internal("Shaders/Vertex.glsl").readString(), Gdx.files.internal("Shaders/Blink.glsl").readString());
         ShaderProgram.pedantic = false;
         if (itemShader.isCompiled()) {
             System.out.println(itemShader.getLog());
@@ -23,7 +24,8 @@ public class ShaderHandler {
 
     public void update(float delta) {
         time += delta;
-        itemShader.setUniformf("u_resolution", 50);
+        System.out.println(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        itemShader.setUniformf("u_resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         itemShader.setUniformf("u_time", time);
     }
 
