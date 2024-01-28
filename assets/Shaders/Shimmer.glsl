@@ -2,14 +2,13 @@
 precision mediump float;
 #endif
 
-uniform float uFlashSpeed;
-uniform vec4 uFlashColour;
-uniform float time;
+varying vec4 v_color;
+varying vec2 v_texCoords;
+uniform sampler2D u_texture;
+uniform float u_time;
 
-void main ( )
-{
-    float t = sin ( time * uFlashSpeed ) * 0.5f + 0.5f;
-    vec4 orig = texture2D ( texture, gl_TexCoord[0].xy );
-
-    gl_FragColor = mix ( orig, uFlashColour, t );
+void main() {
+    vec4 c = v_color * texture2D(u_texture, v_texCoords);
+    float grey = (c.r + c.g + c.b) / 3.0;
+    gl_FragColor = vec4(grey, grey, grey, c.a);
 }
