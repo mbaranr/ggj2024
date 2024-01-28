@@ -14,14 +14,18 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Handlers.B2WorldHandler;
+import com.mygdx.game.Handlers.ShaderHandler;
 import com.mygdx.game.Logic.MyContactListener;
 import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
+import com.mygdx.game.RoleCast.King;
+import com.mygdx.game.RoleCast.NPC;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class CastleScreen extends GameScreen {
     private OrthographicCamera gameCam;
@@ -31,7 +35,10 @@ public class CastleScreen extends GameScreen {
     private Box2DDebugRenderer b2dr;
     private B2WorldHandler b2wh;
     private Buffoon buffoon;
+    private King king;
     private ArrayList<Item> itemList;
+    private LinkedList<NPC> npcs;
+    private ShaderHandler shaderHandler;
 
     public CastleScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
@@ -49,7 +56,13 @@ public class CastleScreen extends GameScreen {
 
         itemList = new ArrayList<>();
 
-        buffoon = new Buffoon(0, 0, world, resourceManager);
+        npcs = new LinkedList<>();
+        shaderHandler = new ShaderHandler(game.batch);
+        npcs.add(new NPC(111, 215, world, "guard", resourceManager, game));
+        npcs.add(new NPC(206, 215, world, "guard", resourceManager, game));
+
+        buffoon = new Buffoon(161, 18, world, resourceManager);
+        king = new King(160, 240, world, resourceManager);
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
@@ -68,7 +81,11 @@ public class CastleScreen extends GameScreen {
         gameCam.update();
         timer.update(delta);
         buffoon.update(delta);
-        if (HUD.getTime() == 17) game.changeScreen("castle");
+        king.update(delta);
+        for (NPC npc : npcs) {
+            npc.update(delta);
+        }
+        shaderHandler.update(delta);
     }
 
     public void handleInput() {
@@ -122,16 +139,25 @@ public class CastleScreen extends GameScreen {
         renderer.setView(gameCam);
         renderer.render();
 
-        buffoon.render(game.batch);
-
-        b2dr.render(world, gameCam.combined);
-        game.batch.setProjectionMatrix(gameCam.combined);
-
-        game.batch.begin();
-        game.batch.end();
-
         game.batch.setProjectionMatrix(HUD.stage.getCamera().combined);
         HUD.stage.draw();
+
+        game.batch.setProjectionMatrix(gameCam.combined);
+
+        game.batch.setShader(shaderHandler.getItemShader());
+        for (Item item : itemList) {
+            item.render(game.batch);
+        }
+        game.batch.setShader(null);
+
+        for (NPC npc : npcs) {
+            npc.render(game.batch);
+        }
+
+        buffoon.render(game.batch);
+        king.render(game.batch);
+
+        b2dr.render(world, gameCam.combined);
 
     }
 
@@ -144,7 +170,9 @@ public class CastleScreen extends GameScreen {
     public void pause() { }
 
     @Override
-    public void resume() { }
+    public void resume() {
+        buffoon.getB2body().setTransform(161 / Constants.PPM, 18 / Constants.PPM, 0);
+    }
 
     @Override
     public void hide() { }

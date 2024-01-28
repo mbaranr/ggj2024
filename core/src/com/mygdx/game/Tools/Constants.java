@@ -14,6 +14,10 @@ public class Constants {
         RUN_UP, RUN_DOWN, RUN_LEFT, RUN_RIGHT, IDLE_DOWN, IDLE_UP, IDLE_LEFT, IDLE_RIGHT
     }
 
+    public enum KSTATE {
+        IDLE, LAUGH1, LAUGH2, LAUGH3, DRUNK
+    }
+
     // Bits for collision masking
     public static final short BIT_GROUND = 2;   // Includes ground and walls (because sometimes the ground can be a wall)
     public static final short BIT_TREE = 4;

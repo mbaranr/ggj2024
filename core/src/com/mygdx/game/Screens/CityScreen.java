@@ -184,7 +184,6 @@ public class CityScreen extends GameScreen {
             npc.render(game.batch);
         }
 
-
         b2dr.render(world, gameCam.combined);
     }
 

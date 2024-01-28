@@ -1,5 +1,6 @@
 package com.mygdx.game.RoleCast;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -9,17 +10,22 @@ import com.mygdx.game.Objects.Item;
 import com.mygdx.game.Sprites.B2Sprite;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.FunCalculator;
+import com.mygdx.game.Tools.ResourceManager;
 import java.util.Random;
 import java.util.LinkedList;
 
 public class King extends B2Sprite {
     private float laughMeter;
+    private Constants.KSTATE currState;     // Current animation state
+    private Constants.KSTATE prevState;     // Previous animation state
     private final FunCalculator funCalculator;
     private Constants.COMEDYTYPE favouredType;
     private final Constants.COMEDYTYPE[] comedytypes;
+    private final ResourceManager resourceManager;
 
-    public King(int x, int y, World world) {
+    public King(int x, int y, World world, ResourceManager resourceManager) {
 
+        this.resourceManager = resourceManager;
         laughMeter = 0;
         funCalculator = new FunCalculator();
 
@@ -47,18 +53,30 @@ public class King extends B2Sprite {
 
         wakeUp();
 
+        loadSprites();
+        currState = Constants.KSTATE.IDLE;
+        setAnimation(TextureRegion.split(resourceManager.getTexture("king_idle"), 64, 64)[0], 1/4f, false, 1f, 1);
     }
 
     public void loadSprites() {
-
+        resourceManager.loadTexture("King/king_idle.png", "king_idle");
     }
 
     public void handleAnimation() {
-
+        switch (currState)  {
+            case IDLE:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("king_idle"), 64, 64)[0], 1/4f, false, 1f, 1);
+                break;
+            case LAUGH1:
+                break;
+            case LAUGH2:
+                break;
+            case LAUGH3:
+                break;
+        }
     }
 
     public void update(float delta) {
-
         animation.update(delta);
     }
 
