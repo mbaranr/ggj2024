@@ -65,11 +65,8 @@ public class CastleScreen extends GameScreen {
         buffoon = new Buffoon(161, 70, world, resourceManager);
         king = new King(160, 240, world, resourceManager);
 
-<<<<<<< Updated upstream
-        world.setContactListener(new MyContactListener(buffoon));
-=======
-        world.setContactListener(new MyContactListener(itemList, buffoon, game));
->>>>>>> Stashed changes
+        world.setContactListener(new MyContactListener(buffoon, game));
+
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
     }

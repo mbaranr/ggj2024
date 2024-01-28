@@ -17,13 +17,8 @@ public class MyContactListener implements ContactListener {
     private int transparencyContact;
     private LOD game;
 
-<<<<<<< Updated upstream
-    public MyContactListener(Buffoon buffoon) {
-=======
-    public MyContactListener(ArrayList<Item> itemList, Buffoon buffoon, LOD game) {
+    public MyContactListener(Buffoon buffoon, LOD game) {
         this.game = game;
-        this.itemList = itemList;
->>>>>>> Stashed changes
         this.buffoon = buffoon;
         transparencyContact = 0;
     }
