@@ -40,7 +40,6 @@ public class MyContactListener implements ContactListener {
             buffoon.setCurrAlpha(0.5f);
         }
 
-
     }
 
     @Override
