@@ -59,7 +59,7 @@ public class HUD implements Subscriber {
     }
 
     public void start() {
-        timer.start(1f, "minute_passed", this);
+        timer.start(0.5f, "minute_passed", this);
     }
 
     public void setPaused(boolean state) {
@@ -72,9 +72,10 @@ public class HUD implements Subscriber {
         minutes++;
         if (minutes == 60) {
             hour++;
+            minutes = 0;
         }
         timeLabel.setText(String.format("%02d%s", hour % 12 == 0 ? 12 : hour % 12, hour < 12 ? " AM" : " PM"));
-        timer.start(1f, "minute_passes", this);
+        timer.start(0.5f, "minute_passes", this);
     }
 
     public int getTime() {

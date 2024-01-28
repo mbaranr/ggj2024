@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Logic.MyTimer;
+import com.mygdx.game.Objects.Item;
 import com.mygdx.game.Scenes.CutScene;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Screens.CastleScreen;
@@ -13,6 +14,8 @@ import com.mygdx.game.Screens.CityScreen;
 import com.mygdx.game.Screens.OpenScreen;
 import com.mygdx.game.Screens.TomatoMiniGame;
 import com.mygdx.game.Tools.ResourceManager;
+
+import java.util.LinkedList;
 
 public class LOD extends Game {
 	public SpriteBatch batch;
@@ -30,11 +33,13 @@ public class LOD extends Game {
 	private  Music music2;
 	private Music music3;
 	private Music music4;
-
+	public LinkedList<Item> inventory;
 	@Override
 	public void create () {
 
-		cutSceneActive = false;
+		cutSceneActive = true;
+
+		inventory = new LinkedList<>();
 
 		batch = new SpriteBatch();
 		cutScene = new CutScene(batch, "Go make me laugh!");
@@ -76,6 +81,7 @@ public class LOD extends Game {
 			music1.stop();
 			music2.stop();
 			music3.play();
+			castleScreen.resume();
 			setScreen(castleScreen);
 		}
 		if (tag.equals("city")) {

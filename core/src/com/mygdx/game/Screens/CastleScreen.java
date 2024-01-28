@@ -65,7 +65,7 @@ public class CastleScreen extends GameScreen {
         npcs.add(new NPC(111, 215, world, "guard", resourceManager, game));
         npcs.add(new NPC(206, 215, world, "guard", resourceManager, game));
 
-        buffoon = new Buffoon(161, 70, world, resourceManager);
+        buffoon = new Buffoon(161, 70, world, resourceManager, game);
         king = new King(160, 240, world, resourceManager, game);
         world.setContactListener(new MyContactListener(buffoon, game));
         b2dr = new Box2DDebugRenderer();
@@ -152,7 +152,6 @@ public class CastleScreen extends GameScreen {
             LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
-                    System.out.println(2233);
                     buffoon.getPlayerList().add(item);
                     toRemove.add(item);
                 }
@@ -213,6 +212,7 @@ public class CastleScreen extends GameScreen {
         }
 
         game.batch.setProjectionMatrix(gameCam.combined);
+
     }
 
     @Override
@@ -225,7 +225,7 @@ public class CastleScreen extends GameScreen {
 
     @Override
     public void resume() {
-        buffoon.getB2body().setTransform(161 / Constants.PPM, 18 / Constants.PPM, 0);
+        king.reset();
     }
 
     @Override

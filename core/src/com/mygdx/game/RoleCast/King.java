@@ -16,7 +16,6 @@ import java.util.Random;
 import java.util.LinkedList;
 
 public class King extends B2Sprite {
-    private float laughMeter;
     private Constants.KSTATE currState;     // Current animation state
     private Constants.KSTATE prevState;     // Previous animation state
     private final FunCalculator funCalculator;
@@ -30,7 +29,6 @@ public class King extends B2Sprite {
         this.resourceManager = resourceManager;
         this.game = game;
 
-        laughMeter = 0;
         funCalculator = new FunCalculator();
 
         comedytypes = new Constants.COMEDYTYPE[5];
@@ -52,25 +50,26 @@ public class King extends B2Sprite {
         polygonShape.setAsBox(32 / Constants.PPM, 32 / Constants.PPM, new Vector2(0, 0), 0);
         fdef.shape = polygonShape;
         fdef.friction = 0;
-        fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM;
         b2body.createFixture(fdef).setUserData("king");
 
         polygonShape.setAsBox(32 / Constants.PPM, 64 / Constants.PPM, new Vector2(0, 0), 0);
         fdef.shape = polygonShape;
         fdef.friction = 0;
         fdef.isSensor = true;
-        fdef.filter.categoryBits = Constants.BIT_GROUND;
-        b2body.createFixture(fdef).setUserData("king");
+        fdef.filter.categoryBits = Constants.BIT_KING;
+        b2body.createFixture(fdef).setUserData(this);
 
         wakeUp();
 
         loadSprites();
         currState = Constants.KSTATE.IDLE;
+        prevState = Constants.KSTATE.LAUGH3;
         setAnimation(TextureRegion.split(resourceManager.getTexture("king_idle"), 64, 64)[0], 1/4f, false, 1f, 1);
     }
 
     public void loadSprites() {
         resourceManager.loadTexture("King/king_idle.png", "king_idle");
+        resourceManager.loadTexture("King/king_laughing_level-3.png", "king_laugh3");
     }
 
     public void handleAnimation() {
@@ -83,16 +82,17 @@ public class King extends B2Sprite {
             case LAUGH2:
                 break;
             case LAUGH3:
+                setAnimation(TextureRegion.split(resourceManager.getTexture("king_laugh3"), 64, 64)[0], 1/4f, false, 1f, 1);
                 break;
         }
     }
 
     public void update(float delta) {
+        if (currState != prevState) {
+            prevState = currState;
+            handleAnimation();
+        }
         animation.update(delta);
-    }
-
-    public void resetMeter() {
-        laughMeter = 0;
     }
 
     public void wakeUp() {
@@ -106,10 +106,16 @@ public class King extends B2Sprite {
     }
 
     public void presentItems(LinkedList<Item> items) {
-        laughMeter += funCalculator.evaluate(items, favouredType);
-        if (laughMeter > 0.5) {
+        float listRating = funCalculator.evaluate(items, favouredType);
+        if (listRating > 0.5) {
+            currState = Constants.KSTATE.LAUGH3;
+            game.cutSceneActive = true;
             game.cutScene.setText("HA! HA! HA!");
         }
+    }
+
+    public void reset() {
+        currState = Constants.KSTATE.IDLE;
     }
 
 }
