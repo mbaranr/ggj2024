@@ -64,7 +64,7 @@ public class OpenScreen extends GameScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             System.exit(0);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             game.changeScreen("city");
         }
     }

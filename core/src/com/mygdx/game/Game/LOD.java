@@ -28,6 +28,7 @@ public class LOD extends Game {
 	private Music music1;
 	private  Music music2;
 	private Music music3;
+	private Music music4;
 
 	@Override
 	public void create () {
@@ -46,7 +47,7 @@ public class LOD extends Game {
 		tomatoMiniGame = new TomatoMiniGame(this, resourceManager, HUD, timer);
 
 		loadMusic();
-		music1.play();
+		music4.play();
 		setScreen(openScreen);
 	}
 
@@ -55,12 +56,15 @@ public class LOD extends Game {
 		music1 = Gdx.audio.newMusic(Gdx.files.internal("Music/RPG_Medieval_Fantasy_-_Care_to_Dance.mp3"));
 		music2 = Gdx.audio.newMusic(Gdx.files.internal("Music/RPG_Medieval_Fantasy_-_Tavern_Row.mp3"));
 		music3 = Gdx.audio.newMusic(Gdx.files.internal("Music/RPG_Medieval_Fantasy_-_Welcome_to_The_Boars_Inn_Loopable.mp3"));
+		music4 = Gdx.audio.newMusic(Gdx.files.internal("Music/RPG_Medieval_Fantasy_-_The_Drunken_Sailor_Loopable.mp3"));
 		music1.setVolume(10);
 		music1.setLooping(true);
 		music2.setVolume(10);
 		music2.setLooping(true);
 		music3.setVolume(10);
 		music3.setLooping(true);
+		music4.setVolume(10);
+		music4.setLooping(true);
 	}
 
 	public void changeScreen(String tag) {
