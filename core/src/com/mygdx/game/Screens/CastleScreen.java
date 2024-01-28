@@ -113,14 +113,45 @@ public class CastleScreen extends GameScreen {
             stopX = false;
             buffoon.moveRight();
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+            input = true;
+            stopX = false;
+            stopY = false;
+            buffoon.moveUpLeft();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+            input = true;
+            stopX = false;
+            stopY = false;
+            buffoon.moveUpRight();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+            input = true;
+            stopX = false;
+            stopY = false;
+            buffoon.moveDownLeft();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+            input = true;
+            stopX = false;
+            stopY = false;
+            buffoon.moveDownRight();
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
                     buffoon.getPlayerList().add(item);
-                    System.out.println("Item was grabbed by the player");
+                    toRemove.add(item);
                 }
             }
+            itemList.remove(toRemove);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            if (buffoon.getTargetnpc() != null) buffoon.getTargetnpc().interact();
+            else if (buffoon.getKing() != null) buffoon.giveItems();
         }
 
         if (!input) buffoon.stop();
