@@ -43,7 +43,7 @@ public class HUD implements Subscriber {
         timeLabel = new Label(String.format("%02d%s", hour % 12 == 0 ? 12 : hour % 12, hour < 12 ? " AM" : " PM"), new Label.LabelStyle(FancyFontHelper.getInstance().getFont(Color.RED, 60), new Color(0.5f, 0, 0, 1)));
         timeLabel.setAlignment(Align.left);
 
-        coinLabel = new Label(Integer.toHexString(coinCount), new Label.LabelStyle(FancyFontHelper.getInstance().getFont(Color.YELLOW, 30), new Color(1, 1, 1, 1)));
+        coinLabel = new Label(Integer.toString(coinCount), new Label.LabelStyle(FancyFontHelper.getInstance().getFont(Color.YELLOW, 30), new Color(1, 1, 1, 1)));
         coinLabel.setAlignment(Align.right);
 
         coinImage = new Image(new Texture(Gdx.files.internal("Items/coin.png")));

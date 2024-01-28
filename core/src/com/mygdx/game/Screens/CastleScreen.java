@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -89,6 +90,14 @@ public class CastleScreen extends GameScreen {
     }
 
     public void handleInput() {
+
+        if (game.cutScene != null) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                game.cutScene = null;
+            }
+            return;
+        }
+
         boolean input = false;
         boolean stopX = true;
         boolean stopY = true;
@@ -173,9 +182,6 @@ public class CastleScreen extends GameScreen {
         renderer.setView(gameCam);
         renderer.render();
 
-        game.batch.setProjectionMatrix(HUD.stage.getCamera().combined);
-        HUD.stage.draw();
-
         game.batch.setProjectionMatrix(gameCam.combined);
 
         game.batch.setShader(shaderHandler.getItemShader());
@@ -184,15 +190,26 @@ public class CastleScreen extends GameScreen {
         }
         game.batch.setShader(null);
 
+        game.batch.setProjectionMatrix(HUD.stage.getCamera().combined);
+        HUD.stage.draw();
+
+        game.batch.setProjectionMatrix(gameCam.combined);
+
+        buffoon.render(game.batch);
         for (NPC npc : npcs) {
             npc.render(game.batch);
         }
 
-        buffoon.render(game.batch);
-        king.render(game.batch);
+        if (game.cutScene != null) {
+            game.batch.setProjectionMatrix(gameCam.combined);
+            game.batch.begin();
+            game.batch.draw(new Texture(Gdx.files.internal("Items/black.png")), gameCam.position.x - 2f, gameCam.position.y - 1.2f , 4, 1f);
+            game.batch.end();
+            game.batch.setProjectionMatrix(game.cutScene.stage.getCamera().combined);
+            game.cutScene.stage.draw();
+        }
 
-        b2dr.render(world, gameCam.combined);
-
+        game.batch.setProjectionMatrix(gameCam.combined);
     }
 
     @Override

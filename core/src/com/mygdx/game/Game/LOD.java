@@ -3,7 +3,7 @@ package com.mygdx.game.Game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Logic.MyTimer;
-import com.mygdx.game.Objects.Tomato;
+import com.mygdx.game.Scenes.CutScene;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Screens.CastleScreen;
 import com.mygdx.game.Screens.ChurchScreen;
@@ -20,8 +20,12 @@ public class LOD extends Game {
 	private TomatoMiniGame tomatoMiniGame;
 	private MyTimer timer;
 	private HUD HUD;
+	public CutScene cutScene;
 	@Override
 	public void create () {
+
+		cutScene = null;
+
 		batch = new SpriteBatch();
 		resourceManager = new ResourceManager();
 		timer = new MyTimer();
@@ -33,7 +37,7 @@ public class LOD extends Game {
 		tomatoMiniGame = new TomatoMiniGame(this, resourceManager, HUD, timer);
 
 
-		setScreen(churchScreen);
+		setScreen(cityScreen);
 	}
 
 	public void changeScreen(String tag) {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -20,6 +21,7 @@ import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.RoleCast.NPC;
+import com.mygdx.game.Scenes.CutScene;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
@@ -69,6 +71,8 @@ public class CityScreen extends GameScreen {
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
         HUD.start();
+
+        game.cutScene = new CutScene(game.batch, "Go make me laugh!");
     }
 
     @Override
@@ -92,6 +96,13 @@ public class CityScreen extends GameScreen {
         boolean input = false;
         boolean stopX = true;
         boolean stopY = true;
+
+        if (game.cutScene != null) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                game.cutScene = null;
+            }
+            return;
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             input = true;
@@ -183,12 +194,23 @@ public class CityScreen extends GameScreen {
         }
         game.batch.setShader(null);
 
+        game.batch.setProjectionMatrix(gameCam.combined);
+
         buffoon.render(game.batch);
         for (NPC npc : npcs) {
             npc.render(game.batch);
         }
 
-        b2dr.render(world, gameCam.combined);
+        if (game.cutScene != null) {
+            game.batch.setProjectionMatrix(gameCam.combined);
+            game.batch.begin();
+            game.batch.draw(new Texture(Gdx.files.internal("Items/black.png")), gameCam.position.x - 2f, gameCam.position.y - 1.2f , 4, 1f);
+            game.batch.end();
+            game.batch.setProjectionMatrix(game.cutScene.stage.getCamera().combined);
+            game.cutScene.stage.draw();
+        }
+
+        game.batch.setProjectionMatrix(gameCam.combined);
     }
 
     @Override
