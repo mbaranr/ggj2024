@@ -33,7 +33,6 @@ public class CastleScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
     private final World world;    // World holding all the physical objects
     private final Box2DDebugRenderer b2dr;
-    private final B2WorldHandler b2wh;
     private final Buffoon buffoon;
     private final ArrayList<Item> itemList;
     private final HUD HUD;
@@ -47,7 +46,7 @@ public class CastleScreen implements Screen {
 
         // Creating tiled map
         TmxMapLoader mapLoader = new TmxMapLoader();
-        TiledMap map = mapLoader.load("TiledMaps/City/chunkyworld.tmx");
+        TiledMap map = mapLoader.load("TiledMaps/Castle/Castle_interior.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
@@ -63,7 +62,7 @@ public class CastleScreen implements Screen {
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
-        b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, game.batch, game);     //Creating world
+        //b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, game.batch, game);     //Creating world
     }
 
 
