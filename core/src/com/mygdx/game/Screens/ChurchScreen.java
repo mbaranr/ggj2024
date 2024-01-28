@@ -37,6 +37,7 @@ public class ChurchScreen extends GameScreen {
     private OrthogonalTiledMapRenderer renderer;
     private World world;    // World holding all the physical objects
     private Box2DDebugRenderer b2dr;
+    private B2WorldHandler b2wh;
     private Buffoon buffoon;
     private LinkedList<NPC> npcs;
     private LinkedList<Item> itemList;
@@ -56,13 +57,25 @@ public class ChurchScreen extends GameScreen {
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
 
-
+        // Buffoon stuff
         itemList = new LinkedList<>();
+        Item hooka = new Item(1025, 1126, world, 0.1f, null, null, null, null, 1, "Items/Hookah.png");
+        Item ring = new Item(1025, 1126, world, 0.1f, null, null, null, null, 1, "Items/Ring_withshit.png");
 
+        itemList.add(hooka);
+        itemList.add(ring);
+
+        buffoon = new Buffoon(300, 920, world, resourceManager);
+
+        gameCam = new OrthographicCamera();
+        gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
+        gameCam.position.set(2, 77, 0);
         npcs = new LinkedList<>();
+
         shaderHandler = new ShaderHandler(game.batch);
-        buffoon = new Buffoon(0, 0, world, resourceManager);
-        npcs.add(new NPC(5700, 7000, world, "nun", resourceManager, game));
+        npcs.add(new NPC(450, 1300, world, "nun", resourceManager, game));
+        npcs.add(new NPC(500, 1050, world, "nun", resourceManager, game));
+        npcs.add(new NPC(150, 1020, world, "nun", resourceManager, game));
 
         world.setContactListener(new MyContactListener(buffoon, game));
         b2dr = new Box2DDebugRenderer();

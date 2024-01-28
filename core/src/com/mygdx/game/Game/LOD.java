@@ -10,6 +10,7 @@ import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Screens.CastleScreen;
 import com.mygdx.game.Screens.ChurchScreen;
 import com.mygdx.game.Screens.CityScreen;
+import com.mygdx.game.Screens.OpenScreen;
 import com.mygdx.game.Screens.TomatoMiniGame;
 import com.mygdx.game.Tools.ResourceManager;
 
@@ -19,6 +20,7 @@ public class LOD extends Game {
 	private CityScreen cityScreen;
 	private CastleScreen castleScreen;
 	private ChurchScreen churchScreen;
+	private OpenScreen openScreen;
 	private TomatoMiniGame tomatoMiniGame;
 	private MyTimer timer;
 	private HUD HUD;
@@ -37,6 +39,7 @@ public class LOD extends Game {
 		timer = new MyTimer();
 		HUD = new HUD(timer, batch);
 
+		openScreen = new OpenScreen(this, resourceManager, HUD, timer);
 		cityScreen = new CityScreen(this, resourceManager, HUD, timer);
 		castleScreen = new CastleScreen(this, resourceManager, HUD, timer);
 		churchScreen = new ChurchScreen(this, resourceManager, HUD, timer);
@@ -44,8 +47,9 @@ public class LOD extends Game {
 
 		loadMusic();
 		music1.play();
-		setScreen(cityScreen);
+		setScreen(openScreen);
 	}
+
 
 	public void loadMusic() {
 		music1 = Gdx.audio.newMusic(Gdx.files.internal("Music/RPG_Medieval_Fantasy_-_Care_to_Dance.mp3"));
