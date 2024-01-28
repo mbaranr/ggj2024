@@ -17,14 +17,14 @@ public class ShaderHandler {
         time = 0;
         itemShader = new ShaderProgram(Gdx.files.internal("Shaders/Vertex.glsl").readString(), Gdx.files.internal("Shaders/Blink.glsl").readString());
         ShaderProgram.pedantic = false;
-        if (itemShader.isCompiled()) {
+        if (!itemShader.isCompiled()) {
             System.out.println(itemShader.getLog());
         }
     }
 
     public void update(float delta) {
         time += delta;
-        itemShader.setUniformf("u_resolution", new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0));
+        itemShader.bind();
         itemShader.setUniformf("u_time", time);
     }
 
