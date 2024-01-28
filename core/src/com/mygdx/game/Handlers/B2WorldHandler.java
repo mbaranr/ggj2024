@@ -48,7 +48,7 @@ public class B2WorldHandler {
             body.createFixture(fdef).setUserData("transparency");
         }
 
-        
+
         for (RectangleMapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = object.getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
