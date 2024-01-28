@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.RoleCast.NPC;
+import com.mygdx.game.RoleCast.King;
 
 public class MyContactListener implements ContactListener {
 
@@ -27,7 +28,9 @@ public class MyContactListener implements ContactListener {
 
         if (fa.getUserData() instanceof NPC || fb.getUserData() instanceof NPC) {
             buffoon.setTargetnpc((NPC) (fa.getUserData() instanceof NPC ? fa.getUserData() : fb.getUserData()));
-        } else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
+        } else if (fa.getUserData() instanceof King || fb.getUserData() instanceof King) {
+            buffoon.setKing((King) (fa.getUserData() instanceof King ? fa.getUserData() : fb.getUserData()));
+        }else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
             for (Item item : itemList) {
                 if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
                     buffoon.addItem(item);
@@ -48,7 +51,9 @@ public class MyContactListener implements ContactListener {
 
         if (fa.getUserData() instanceof NPC || fb.getUserData() instanceof NPC) {
             buffoon.setTargetnpc(null);
-        } else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
+        } else if (fa.getUserData() instanceof King || fb.getUserData() instanceof King) {
+            buffoon.setKing(null);
+        }else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
             for (Item item : itemList) {
 
                 if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {

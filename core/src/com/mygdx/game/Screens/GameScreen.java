@@ -21,6 +21,7 @@ public abstract class GameScreen implements Screen {
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
         
     }
+
     public abstract void render(float delta);
     public abstract void resize(int width, int height);
     public abstract void pause();

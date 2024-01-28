@@ -18,6 +18,7 @@ public class Buffoon extends B2Sprite {
     private float prevAlpha;
     private final ResourceManager resourceManager;
     private NPC targetnpc;
+    private King king;
 
     public Buffoon(int x, int y, World world, ResourceManager resourceManager) {
 
@@ -26,6 +27,8 @@ public class Buffoon extends B2Sprite {
         prevAState = Constants.ASTATE.IDLE_DOWN;
         currAlpha = 1;
         prevAlpha = 1;
+
+        king = null;
 
         loadSprites();
 
@@ -82,7 +85,7 @@ public class Buffoon extends B2Sprite {
                 break;
             case IDLE_LEFT:
                 setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_idle_left"), 32, 32)[0], 1/4f, false, 1f, currAlpha);
-                break;  
+                break;
             case IDLE_RIGHT:
                 setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_idle_right"), 32, 32)[0], 1/4f, false, 1f, currAlpha);
                 break;
@@ -186,6 +189,18 @@ public class Buffoon extends B2Sprite {
 
     public void setTargetnpc(NPC npc) {
         targetnpc = npc;
+    }
+
+    public void setKing(King king) {
+        this.king = king;
+    }
+
+    public King getKing() {
+        return king;
+    }
+
+    public void giveItems() {
+        king.presentItems(playerItems);
     }
 
     public NPC getTargetnpc() {
