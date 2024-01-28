@@ -9,13 +9,12 @@ import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Logic.MyTimer;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class B2WorldHandler {
 
     LOD game;
 
-    public B2WorldHandler(World world, TiledMap map, ResourceManager resourceManager, MyTimer timer, AtomicInteger eidAllocator, SpriteBatch batch, LOD game) {
+    public B2WorldHandler(World world, TiledMap map, ResourceManager resourceManager, MyTimer timer, SpriteBatch batch, LOD game) {
         
         this.game = game;
         
