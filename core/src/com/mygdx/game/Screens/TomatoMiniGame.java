@@ -24,8 +24,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class TomatoMiniGame extends GameScreen implements Subscriber {
-
-    private MyTimer timer;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private World world;    // World holding all the physical objects
@@ -113,7 +111,8 @@ public class TomatoMiniGame extends GameScreen implements Subscriber {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
 
             if(tomatoesLeft <= 0) {
-                System.exit(0);
+                tomatoesLeft = 10;
+                game.changeScreen("city");
             }
 
             Vector2 mouseCoords = new Vector2(Gdx.input.getX()/Constants.PPM, Gdx.input.getY()/Constants.PPM);
