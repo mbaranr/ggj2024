@@ -51,6 +51,13 @@ public class King extends B2Sprite {
         fdef.filter.maskBits = Constants.BIT_GROUND | Constants.BIT_TREE | Constants.BIT_ITEM;
         b2body.createFixture(fdef).setUserData("king");
 
+        polygonShape.setAsBox(32 / Constants.PPM, 64 / Constants.PPM, new Vector2(0, 0), 0);
+        fdef.shape = polygonShape;
+        fdef.friction = 0;
+        fdef.isSensor = true;
+        fdef.filter.categoryBits = Constants.BIT_GROUND;
+        b2body.createFixture(fdef).setUserData("king");
+
         wakeUp();
 
         loadSprites();

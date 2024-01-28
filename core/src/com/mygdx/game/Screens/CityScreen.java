@@ -140,12 +140,14 @@ public class CityScreen extends GameScreen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
                     buffoon.getPlayerList().add(item);
-                    System.out.println("Item was grabbed by the player");
+                    toRemove.add(item);
                 }
             }
+            itemList.remove(toRemove);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {

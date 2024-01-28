@@ -82,7 +82,7 @@ public class Buffoon extends B2Sprite {
                 break;
             case IDLE_LEFT:
                 setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_idle_left"), 32, 32)[0], 1/4f, false, 1f, currAlpha);
-                break;
+                break;  
             case IDLE_RIGHT:
                 setAnimation(TextureRegion.split(resourceManager.getTexture("buffoon_idle_right"), 32, 32)[0], 1/4f, false, 1f, currAlpha);
                 break;
