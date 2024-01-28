@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CityScreen extends GameScreen {
-    private LOD game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private OrthogonalTiledMapRenderer renderer;
@@ -38,8 +37,6 @@ public class CityScreen extends GameScreen {
     private Box2DDebugRenderer b2dr;
     private B2WorldHandler b2wh;
     private Buffoon buffoon;
-    private MyTimer timer;
-    private HUD HUD;
     private NPC merchant;
     private NPC guard1;
     private NPC guard2;

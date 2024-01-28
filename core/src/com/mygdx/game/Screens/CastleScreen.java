@@ -24,8 +24,6 @@ import com.mygdx.game.Tools.ResourceManager;
 import java.util.ArrayList;
 
 public class CastleScreen extends GameScreen {
-    private MyTimer timer;
-    private LOD game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private OrthogonalTiledMapRenderer renderer;
@@ -34,7 +32,6 @@ public class CastleScreen extends GameScreen {
     private B2WorldHandler b2wh;
     private Buffoon buffoon;
     private ArrayList<Item> itemList;
-    private HUD HUD;
 
     public CastleScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
@@ -42,7 +39,7 @@ public class CastleScreen extends GameScreen {
 
         // Creating tiled map
         TmxMapLoader mapLoader = new TmxMapLoader();
-        TiledMap map = mapLoader.load("TiledMaps/City/chunkyworld.tmx");
+        TiledMap map = mapLoader.load("TiledMaps/Castle/Castle_interior.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
