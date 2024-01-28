@@ -23,8 +23,7 @@ public class ShaderHandler {
 
     public void update(float delta) {
         time += delta;
-        itemShader.setUniformf("uFlashSpeed", 50);
-        itemShader.setUniformf("uFlashColor", new Vector4(1, 0, 0, 1));
+        itemShader.setUniformf("u_resolution", 50);
         itemShader.setUniformf("u_time", time);
     }
 
