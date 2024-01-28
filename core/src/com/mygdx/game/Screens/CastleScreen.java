@@ -78,7 +78,6 @@ public class CastleScreen extends GameScreen {
 
     public void update(float delta) {
         handleInput();
-        System.out.println(buffoon.getPosition());
         world.step(1/60f, 6, 2);
         gameCam.position.set(buffoon.getPosition().x, buffoon.getPosition().y, 0);
         gameCam.update();

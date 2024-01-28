@@ -60,7 +60,7 @@ public class ChurchScreen extends GameScreen {
         // Buffoon stuff
         itemList = new LinkedList<>();
         Item hooka = new Item(1025, 1126, world, 0.1f, null, null, null, null, 1, "Items/Hookah.png");
-        Item ring = new Item(1025, 1126, world, 0.1f, null, null, null, null, 1, "Items/Ring_withshit.png");
+        Item ring = new Item(800, 1126, world, 0.1f, null, null, null, null, 1, "Items/Ring_withshit.png");
 
         itemList.add(hooka);
         itemList.add(ring);

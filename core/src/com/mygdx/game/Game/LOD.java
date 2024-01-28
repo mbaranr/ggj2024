@@ -76,6 +76,7 @@ public class LOD extends Game {
 			setScreen(castleScreen);
 		}
 		if (tag.equals("city")) {
+			music4.stop();
 			music1.play();
 			music2.stop();
 			music3.stop();
