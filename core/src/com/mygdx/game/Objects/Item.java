@@ -41,7 +41,7 @@ public Item(int x, int y, World world, float laughRating, String story, Constant
         PolygonShape polygonShape = new PolygonShape();
 
         //Create body fixture
-        polygonShape.setAsBox(5 / Constants.PPM, 5 / Constants.PPM, new Vector2(0, 0), 0);
+        polygonShape.setAsBox(8 / Constants.PPM, 8 / Constants.PPM, new Vector2(0, 0), 0);
         fdef.shape = polygonShape;
         fdef.friction = 0;
         fdef.isSensor = true;
@@ -81,7 +81,7 @@ public Item(int x, int y, World world, float laughRating, String story, Constant
     public void render(SpriteBatch batch) {
         System.out.println("here");
         batch.begin();
-        batch.draw(texture,  b2body.getPosition().x, b2body.getPosition().y, texture.getWidth() / Constants.PPM, texture.getHeight() / Constants.PPM);
+        batch.draw(texture,  b2body.getPosition().x - texture.getWidth() / (2f*Constants.PPM), b2body.getPosition().y - texture.getHeight() / (2f*Constants.PPM), texture.getWidth() / Constants.PPM, texture.getHeight() / Constants.PPM);
         batch.end();
     }
 

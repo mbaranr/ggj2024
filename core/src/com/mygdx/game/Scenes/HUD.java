@@ -80,8 +80,8 @@ public class HUD implements Subscriber {
     public int getTime() {
         return hour;
     }
-    public void updateCoinCount(int newCoinCount) {
-        coinCount = newCoinCount;
+    public void updateCoinCount() {
+        coinCount++;
         coinLabel.setText(coinCount);
     }
 }
