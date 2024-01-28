@@ -31,13 +31,7 @@ public class LOD extends Game {
 		castleScreen = new CastleScreen(this, resourceManager, HUD, timer);
 		churchScreen = new ChurchScreen(this, resourceManager, HUD, timer);
 		tomatoMiniGame = new TomatoMiniGame(this, resourceManager, HUD, timer);
-
-
-<<<<<<< Updated upstream
 		setScreen(churchScreen);
-=======
-		setScreen(cityScreen);
->>>>>>> Stashed changes
 	}
 
 	public void changeScreen(String tag) {

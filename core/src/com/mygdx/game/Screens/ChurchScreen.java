@@ -36,14 +36,11 @@ public class ChurchScreen extends GameScreen {
     private OrthogonalTiledMapRenderer renderer;
     private World world;    // World holding all the physical objects
     private Box2DDebugRenderer b2dr;
+    private B2WorldHandler b2wh;
     private Buffoon buffoon;
-<<<<<<< Updated upstream
     private LinkedList<NPC> npcs;
     private LinkedList<Item> itemList;
     private ShaderHandler shaderHandler;
-=======
-    private ArrayList<Item> itemList;
->>>>>>> Stashed changes
 
     public ChurchScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
@@ -53,19 +50,19 @@ public class ChurchScreen extends GameScreen {
         TmxMapLoader mapLoader = new TmxMapLoader();
         TiledMap map = mapLoader.load("TiledMaps/Church/church.tmx");
 
-<<<<<<< Updated upstream
+
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
-=======
+
         // World
         world = new World(new Vector2(0, 0), true);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
 
         // Buffoon stuff
-        itemList = new ArrayList<>();
+        itemList = new LinkedList<>();
         buffoon = new Buffoon(300, 920, world, resourceManager);
 
         gameCam = new OrthographicCamera();
@@ -74,17 +71,15 @@ public class ChurchScreen extends GameScreen {
         world.setContactListener(new MyContactListener(itemList, buffoon, game));
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);
-    }
->>>>>>> Stashed changes
+    
 
         itemList = new LinkedList<>();
-
         npcs = new LinkedList<>();
-        shaderHandler = new ShaderHandler(game.batch);
-        buffoon = new Buffoon(0, 0, world, resourceManager);
-        npcs.add(new NPC(5700, 7000, world, "nun", resourceManager, game));
 
-        world.setContactListener(new MyContactListener(buffoon));
+        shaderHandler = new ShaderHandler(game.batch);
+        npcs.add(new NPC(450, 1300, world, "nun", resourceManager, game));
+
+        world.setContactListener(new MyContactListener(itemList, buffoon, game));
         b2dr = new Box2DDebugRenderer();
         new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 

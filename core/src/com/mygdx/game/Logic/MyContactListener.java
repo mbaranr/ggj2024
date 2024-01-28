@@ -1,6 +1,7 @@
 package com.mygdx.game.Logic;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Game.LOD;
@@ -17,13 +18,9 @@ public class MyContactListener implements ContactListener {
     private int transparencyContact;
     private LOD game;
 
-<<<<<<< Updated upstream
-    public MyContactListener(Buffoon buffoon) {
-=======
-    public MyContactListener(ArrayList<Item> itemList, Buffoon buffoon, LOD game) {
+
+    public MyContactListener(LinkedList<Item> itemList, Buffoon buffoon, LOD game) {
         this.game = game;
-        this.itemList = itemList;
->>>>>>> Stashed changes
         this.buffoon = buffoon;
         transparencyContact = 0;
     }
