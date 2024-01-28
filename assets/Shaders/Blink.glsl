@@ -4,7 +4,7 @@
 
 varying vec4 v_color;
 varying vec2 v_texCoords;
-uniform sampler2D u_resolution;
+uniform vec3 u_resolution;
 uniform float u_time;
 
 void main() {

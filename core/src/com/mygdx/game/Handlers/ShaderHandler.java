@@ -24,8 +24,7 @@ public class ShaderHandler {
 
     public void update(float delta) {
         time += delta;
-        System.out.println(new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        itemShader.setUniformf("u_resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        itemShader.setUniformf("u_resolution", new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0));
         itemShader.setUniformf("u_time", time);
     }
 
