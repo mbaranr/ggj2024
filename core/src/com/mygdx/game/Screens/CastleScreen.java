@@ -64,7 +64,7 @@ public class CastleScreen extends GameScreen {
         buffoon = new Buffoon(161, 18, world, resourceManager);
         king = new King(160, 240, world, resourceManager);
 
-        world.setContactListener(new MyContactListener(itemList, buffoon));
+        world.setContactListener(new MyContactListener(buffoon));
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
     }
@@ -142,11 +142,14 @@ public class CastleScreen extends GameScreen {
             LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
+                    System.out.println(2233);
                     buffoon.getPlayerList().add(item);
                     toRemove.add(item);
                 }
             }
-            itemList.remove(toRemove);
+            for (Item item : toRemove) {
+                itemList.remove(item);
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {

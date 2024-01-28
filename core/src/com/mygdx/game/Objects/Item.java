@@ -10,7 +10,6 @@ import com.mygdx.game.Tools.Constants;
 public class Item {
 
     private boolean grabbable;
-    private boolean grab;
     private int itemID;
     private float laughRating; // Value from 0 to 1
     private String story;
@@ -46,7 +45,7 @@ public Item(int x, int y, World world, float laughRating, String story, Constant
         fdef.friction = 0;
         fdef.isSensor = true;
         fdef.filter.categoryBits = Constants.BIT_ITEM;
-        b2body.createFixture(fdef).setUserData("item_" + itemID);
+        b2body.createFixture(fdef).setUserData(this);
 
     }
 
@@ -55,11 +54,11 @@ public Item(int x, int y, World world, float laughRating, String story, Constant
     }
 
     public void setGrabbable(boolean flag) {
-        this.grabbable = flag;
+        grabbable = flag;
     }
 
     public boolean canBeGrabbed() {
-        return this.grabbable;
+        return grabbable;
     }
 
     public float getLaughRating() {
@@ -79,7 +78,6 @@ public Item(int x, int y, World world, float laughRating, String story, Constant
     }
 
     public void render(SpriteBatch batch) {
-        System.out.println("here");
         batch.begin();
         batch.draw(texture,  b2body.getPosition().x - texture.getWidth() / (2f*Constants.PPM), b2body.getPosition().y - texture.getHeight() / (2f*Constants.PPM), texture.getWidth() / Constants.PPM, texture.getHeight() / Constants.PPM);
         batch.end();

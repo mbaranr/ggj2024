@@ -12,12 +12,10 @@ public class MyContactListener implements ContactListener {
 
     private Fixture fa;
     private Fixture fb;
-    private ArrayList<Item> itemList;
     private Buffoon buffoon;
     private int transparencyContact;
 
-    public MyContactListener(ArrayList<Item> itemList, Buffoon buffoon) {
-        this.itemList = itemList;
+    public MyContactListener(Buffoon buffoon) {
         this.buffoon = buffoon;
         transparencyContact = 0;
     }
@@ -30,13 +28,11 @@ public class MyContactListener implements ContactListener {
             buffoon.setTargetnpc((NPC) (fa.getUserData() instanceof NPC ? fa.getUserData() : fb.getUserData()));
         } else if (fa.getUserData() instanceof King || fb.getUserData() instanceof King) {
             buffoon.setKing((King) (fa.getUserData() instanceof King ? fa.getUserData() : fb.getUserData()));
-        }else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
-            for (Item item : itemList) {
-                if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
-                    buffoon.addItem(item);
-                    item.setGrabbable(true);
-                }
-
+        }else if (fa.getUserData() instanceof Item || fa.getUserData() instanceof Item) {
+            if (fa.getUserData() instanceof Item) {
+                ((Item) fa.getUserData()).setGrabbable(true);
+            } else {
+                ((Item) fb.getUserData()).setGrabbable(true);
             }
         } else if (fa.getUserData().equals("transparency") || fb.getUserData().equals("transparency")) {
             transparencyContact++;
@@ -53,13 +49,11 @@ public class MyContactListener implements ContactListener {
             buffoon.setTargetnpc(null);
         } else if (fa.getUserData() instanceof King || fb.getUserData() instanceof King) {
             buffoon.setKing(null);
-        }else if (((String)fa.getUserData()).contains("{item}") || ((String)fb.getUserData()).contains("{item}")) {
-            for (Item item : itemList) {
-
-                if (fa.getUserData().equals("item" + item.getItemID()) || !fb.getUserData().equals("item" + item.getItemID())) {
-                    item.setGrabbable(false);
-                }
-
+        } else if (fa.getUserData() instanceof Item || fa.getUserData() instanceof Item) {
+            if (fa.getUserData() instanceof Item) {
+                ((Item) fa.getUserData()).setGrabbable(false);
+            } else {
+                ((Item) fb.getUserData()).setGrabbable(false);
             }
         } else if (fa.getUserData().equals("transparency") || fb.getUserData().equals("transparency")) {
             transparencyContact--;

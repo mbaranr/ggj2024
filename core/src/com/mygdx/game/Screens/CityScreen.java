@@ -35,7 +35,7 @@ public class CityScreen extends GameScreen {
     private B2WorldHandler b2wh;
     private Buffoon buffoon;
     private LinkedList<NPC> npcs;
-    private ArrayList<Item> itemList;
+    private LinkedList<Item> itemList;
     private ShaderHandler shaderHandler;
 
     public CityScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
@@ -52,7 +52,7 @@ public class CityScreen extends GameScreen {
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
 
-        itemList = new ArrayList<>();
+        itemList = new LinkedList<>();
         Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
         itemList.add(underwear);
 
@@ -64,7 +64,7 @@ public class CityScreen extends GameScreen {
         npcs.add(new NPC(5700, 7519, world, "guard", resourceManager, game));
         npcs.add(new NPC(4659, 7320, world, "farmer", resourceManager, game));
 
-        world.setContactListener(new MyContactListener(itemList, buffoon));
+        world.setContactListener(new MyContactListener(buffoon));
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
@@ -85,7 +85,6 @@ public class CityScreen extends GameScreen {
             npc.update(delta);
         }
         shaderHandler.update(delta);
-        System.out.println(buffoon.getPosition());
         if (HUD.getTime() == 17) game.changeScreen("castle");
     }
 
@@ -143,11 +142,14 @@ public class CityScreen extends GameScreen {
             LinkedList<Item> toRemove = new LinkedList<>();
             for(Item item : itemList) {
                 if(item.canBeGrabbed()) {
+                    System.out.println(2233);
                     buffoon.getPlayerList().add(item);
                     toRemove.add(item);
                 }
             }
-            itemList.remove(toRemove);
+            for (Item item : toRemove) {
+                itemList.remove(item);
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {

@@ -60,7 +60,7 @@ public class ChurchScreen extends GameScreen {
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
-        world.setContactListener(new MyContactListener(itemList, buffoon));
+        world.setContactListener(new MyContactListener(buffoon));
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);
     }
