@@ -25,45 +25,44 @@ import com.mygdx.game.Tools.ResourceManager;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ChurchScreen implements Screen {
-    private final MyTimer timer;
-    private final LOD game;
-    private final OrthographicCamera gameCam;
-    private final Viewport gamePort;
-    private final OrthogonalTiledMapRenderer renderer;
-    private final World world;    // World holding all the physical objects
-    private final Box2DDebugRenderer b2dr;
-    private final B2WorldHandler b2wh;
-    private final Buffoon buffoon;
-    private final ArrayList<Item> itemList;
-    private final HUD HUD;
+public class ChurchScreen extends GameScreen {
+
+    private MyTimer timer;
+    private LOD game;
+    private OrthographicCamera gameCam;
+    private Viewport gamePort;
+    private TmxMapLoader mapLoader;
+    private OrthogonalTiledMapRenderer renderer;
+    private World world;    // World holding all the physical objects
+    private Box2DDebugRenderer b2dr;
+    private B2WorldHandler b2wh;
+    private Buffoon buffoon;
+    private ArrayList<Item> itemList;
+    private HUD HUD;
 
     public ChurchScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
-        this.game = game;
-        this.timer = timer;
-        this.HUD = HUD;
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
+        super(game, HUD, timer);
 
         // Creating tiled map
-        TmxMapLoader mapLoader = new TmxMapLoader();
+        mapLoader = new TmxMapLoader();
         TiledMap map = mapLoader.load("TiledMaps/Church/church.tmx");
-
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
-        world = new World(new Vector2(0, 0), true);
-        gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
-        gameCam.position.set(2, 77, 0);
 
         AtomicInteger eidAllocator = new AtomicInteger();
 
-        itemList = new ArrayList<>();
+        // World
+        world = new World(new Vector2(0, 0), true);
 
+        // Buffoon stuff
+        itemList = new ArrayList<>();
         buffoon = new Buffoon(300, 870, world, resourceManager);
 
+        gameCam = new OrthographicCamera();
+        gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
+        gameCam.position.set(2, 77, 0);
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
-        b2wh = new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, game.batch, game);     //Creating world
+        b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);
     }
 
 

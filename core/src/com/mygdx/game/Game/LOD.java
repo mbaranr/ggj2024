@@ -30,7 +30,7 @@ public class LOD extends Game {
 		cityScreen = new CityScreen(this, resourceManager, HUD, timer);
 		castleScreen = new CastleScreen(this, resourceManager, HUD, timer);
 		churchScreen = new ChurchScreen(this, resourceManager, HUD, timer);
-		tomatoMiniGame = new TomatoMiniGame(this, resourceManager);
+		tomatoMiniGame = new TomatoMiniGame(this, resourceManager, HUD, timer);
 
 
 		setScreen(cityScreen);

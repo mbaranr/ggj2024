@@ -191,4 +191,5 @@ public class Buffoon extends B2Sprite {
     public NPC getTargetnpc() {
         return targetnpc;
     }
+
 }

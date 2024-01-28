@@ -26,31 +26,29 @@ import com.mygdx.game.RoleCast.NPC;
 import com.mygdx.game.Scenes.HUD;
 import com.mygdx.game.Tools.Constants;
 import com.mygdx.game.Tools.ResourceManager;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class CityScreen implements Screen {
-    private final LOD game;
-    private final OrthographicCamera gameCam;
-    private final Viewport gamePort;
-    private final OrthogonalTiledMapRenderer renderer;
-    private final World world;    // World holding all the physical objects
-    private final Box2DDebugRenderer b2dr;
-    private final Buffoon buffoon;
-    private final MyTimer timer;
-    private LinkedList<NPC> npcs;
-    private final HUD HUD;
-    private final ArrayList<Item> itemList;
-    private final ShaderHandler shaderHandler;
+public class CityScreen extends GameScreen {
+    private LOD game;
+    private OrthographicCamera gameCam;
+    private Viewport gamePort;
+    private OrthogonalTiledMapRenderer renderer;
+    private World world;    // World holding all the physical objects
+    private Box2DDebugRenderer b2dr;
+    private B2WorldHandler b2wh;
+    private Buffoon buffoon;
+    private MyTimer timer;
+    private HUD HUD;
+    private NPC merchant;
+    private NPC guard1;
+    private NPC guard2;
+    private ArrayList<Item> itemList;
+    private ShaderHandler shaderHandler;
 
     public CityScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
-        this.game = game;
-        this.timer = timer;
-        this.HUD = HUD;
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());      // Full-screen
+        super(game, HUD, timer);
 
         // Creating tiled map
         TmxMapLoader mapLoader = new TmxMapLoader();
@@ -62,23 +60,19 @@ public class CityScreen implements Screen {
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
 
-        AtomicInteger eidAllocator = new AtomicInteger();
-
         itemList = new ArrayList<>();
         Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
         itemList.add(underwear);
 
-        npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);
         buffoon = new Buffoon(5640, 7520, world, resourceManager);
-        npcs.add(new NPC(5700, 7000, world, "merchant", resourceManager));
-        npcs.add(new NPC(5626, 7519, world, "guard", resourceManager));
-        npcs.add(new NPC(5700, 7519, world, "guard", resourceManager));
-        npcs.add(new NPC(4653, 7333, world, "farmer", resourceManager));
+        merchant = new NPC(5700, 7000, world, "merchant", resourceManager);
+        guard1 = new NPC(5626, 7519, world, "guard", resourceManager);
+        guard2 = new NPC(5700, 7519, world, "guard", resourceManager);
 
         world.setContactListener(new MyContactListener(itemList, buffoon));
         b2dr = new Box2DDebugRenderer();
-        new B2WorldHandler(world, map, resourceManager, timer, eidAllocator, game.batch, game);     //Creating world
+        b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
         HUD.start();
     }
@@ -93,9 +87,9 @@ public class CityScreen implements Screen {
         gameCam.update();
         timer.update(delta);
         buffoon.update(delta);
-        for ( NPC npc : npcs) {
-            npc.update(delta);
-        }
+        merchant.update(delta);
+        guard1.update(delta);
+        guard2.update(delta);
         shaderHandler.update(delta);
         System.out.println(buffoon.getPosition());
         if (HUD.getTime() == 17) game.changeScreen("castle");
@@ -192,12 +186,12 @@ public class CityScreen implements Screen {
         game.batch.setShader(null);
 
         buffoon.render(game.batch);
+        merchant.render(game.batch);
+        guard1.render(game.batch);
+        guard2.render(game.batch);
 
-        for ( NPC npc : npcs) {
-            npc.render(game.batch);
-        }
 
-        b2dr.render(world, gameCam.combined);
+        //b2dr.render(world, gameCam.combined);
     }
 
     @Override
