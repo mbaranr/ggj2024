@@ -56,7 +56,15 @@ public class CityScreen extends GameScreen {
 
         itemList = new LinkedList<>();
         Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
+        Item fish = new Item(4196, 6282, world, 0.1f, null, null, null, null, 1, "Items/Dead_fish.png");
+        Item poop = new Item(5570, 6684, world, 0.1f, null, null, null, null, 1, "Items/poo.png");
+        Item squid = new Item(4022, 6681, world, 0.1f, null, null, null, null, 1, "Items/squid.png");
+        Item shroom = new Item(4348, 6660, world, 0.1f, null, null, null, null, 1, "Items/shroom.png");
         itemList.add(underwear);
+        itemList.add(fish);
+        itemList.add(poop);
+        itemList.add(squid);
+        itemList.add(shroom);
 
         npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);
@@ -65,9 +73,7 @@ public class CityScreen extends GameScreen {
         npcs.add(new NPC(5626, 7519, world, "guard", resourceManager, game));
         npcs.add(new NPC(5700, 7519, world, "guard", resourceManager, game));
         npcs.add(new NPC(4659, 7320, world, "farmer", resourceManager, game));
-
         world.setContactListener(new MyContactListener(buffoon, game));
-
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
@@ -90,7 +96,6 @@ public class CityScreen extends GameScreen {
             npc.update(delta);
         }
         shaderHandler.update(delta);
-
         if (HUD.getTime() == 17) game.changeScreen("castle");
     }
 

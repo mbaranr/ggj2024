@@ -93,6 +93,9 @@ public class Buffoon extends B2Sprite {
     }
 
     public void update(float delta) {
+
+        System.out.println(this.getPosition());
+
         if (currAState != prevAState) {
             prevAState = currAState;
             handleAnimation();

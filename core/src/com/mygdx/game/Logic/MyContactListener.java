@@ -1,6 +1,7 @@
 package com.mygdx.game.Logic;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Game.LOD;
@@ -16,7 +17,6 @@ public class MyContactListener implements ContactListener {
     private Buffoon buffoon;
     private int transparencyContact;
     private LOD game;
-
     public MyContactListener(Buffoon buffoon, LOD game) {
         this.game = game;
         this.buffoon = buffoon;

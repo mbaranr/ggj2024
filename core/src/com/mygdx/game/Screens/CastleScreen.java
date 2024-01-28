@@ -37,7 +37,7 @@ public class CastleScreen extends GameScreen {
     private B2WorldHandler b2wh;
     private Buffoon buffoon;
     private King king;
-    private ArrayList<Item> itemList;
+    private LinkedList<Item> itemList;
     private LinkedList<NPC> npcs;
     private ShaderHandler shaderHandler;
 
@@ -55,7 +55,10 @@ public class CastleScreen extends GameScreen {
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
 
-        itemList = new ArrayList<>();
+        Item queen = new Item(306, 19, world, 0.1f, null, null, null, null, 1, "Items/queen_picture.png");
+        itemList = new LinkedList<>();
+
+        itemList.add(queen);
 
         npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);
@@ -64,9 +67,7 @@ public class CastleScreen extends GameScreen {
 
         buffoon = new Buffoon(161, 70, world, resourceManager);
         king = new King(160, 240, world, resourceManager);
-
         world.setContactListener(new MyContactListener(buffoon, game));
-
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
     }
