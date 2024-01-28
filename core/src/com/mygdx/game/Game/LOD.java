@@ -33,7 +33,11 @@ public class LOD extends Game {
 		tomatoMiniGame = new TomatoMiniGame(this, resourceManager, HUD, timer);
 
 
+<<<<<<< Updated upstream
 		setScreen(churchScreen);
+=======
+		setScreen(cityScreen);
+>>>>>>> Stashed changes
 	}
 
 	public void changeScreen(String tag) {

@@ -61,10 +61,14 @@ public class CastleScreen extends GameScreen {
         npcs.add(new NPC(111, 215, world, "guard", resourceManager, game));
         npcs.add(new NPC(206, 215, world, "guard", resourceManager, game));
 
-        buffoon = new Buffoon(161, 18, world, resourceManager);
+        buffoon = new Buffoon(161, 70, world, resourceManager);
         king = new King(160, 240, world, resourceManager);
 
+<<<<<<< Updated upstream
         world.setContactListener(new MyContactListener(buffoon));
+=======
+        world.setContactListener(new MyContactListener(itemList, buffoon, game));
+>>>>>>> Stashed changes
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
     }

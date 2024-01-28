@@ -3,6 +3,7 @@ package com.mygdx.game.Logic;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.Game.LOD;
 import com.mygdx.game.Objects.Item;
 import com.mygdx.game.RoleCast.Buffoon;
 import com.mygdx.game.RoleCast.NPC;
@@ -14,8 +15,15 @@ public class MyContactListener implements ContactListener {
     private Fixture fb;
     private Buffoon buffoon;
     private int transparencyContact;
+    private LOD game;
 
+<<<<<<< Updated upstream
     public MyContactListener(Buffoon buffoon) {
+=======
+    public MyContactListener(ArrayList<Item> itemList, Buffoon buffoon, LOD game) {
+        this.game = game;
+        this.itemList = itemList;
+>>>>>>> Stashed changes
         this.buffoon = buffoon;
         transparencyContact = 0;
     }
@@ -37,6 +45,15 @@ public class MyContactListener implements ContactListener {
         } else if (fa.getUserData().equals("transparency") || fb.getUserData().equals("transparency")) {
             transparencyContact++;
             buffoon.setCurrAlpha(0.5f);
+
+        } else if (fa.getUserData().equals("castle-entrance") || fb.getUserData().equals("castle-entrance")) {
+            game.changeScreen("castle");
+        } else if (fa.getUserData().equals("church-entrance") || fb.getUserData().equals("church-entrance")) {
+            game.changeScreen("church");
+
+        } else if ((fa.getUserData().equals("castle-exit") || fb.getUserData().equals("castle-exit"))
+        || (fa.getUserData().equals("church-exit") || fb.getUserData().equals("church-exit"))) {
+            game.changeScreen("city");
         }
 
     }

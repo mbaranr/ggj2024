@@ -52,19 +52,28 @@ public class CityScreen extends GameScreen {
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
 
+<<<<<<< Updated upstream
         itemList = new LinkedList<>();
         Item underwear = new Item(5700, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
+=======
+        itemList = new ArrayList<>();
+        Item underwear = new Item(5770, 7420, world, 0.1f, null, null, null, null, 1, "Items/underwear.png");
+>>>>>>> Stashed changes
         itemList.add(underwear);
 
         npcs = new LinkedList<>();
         shaderHandler = new ShaderHandler(game.batch);
-        buffoon = new Buffoon(5640, 7520, world, resourceManager);
+        buffoon = new Buffoon(5650, 7500, world, resourceManager);
         npcs.add(new NPC(5700, 7000, world, "merchant", resourceManager, game));
         npcs.add(new NPC(5626, 7519, world, "guard", resourceManager, game));
         npcs.add(new NPC(5700, 7519, world, "guard", resourceManager, game));
         npcs.add(new NPC(4659, 7320, world, "farmer", resourceManager, game));
 
+<<<<<<< Updated upstream
         world.setContactListener(new MyContactListener(buffoon));
+=======
+        world.setContactListener(new MyContactListener(itemList, buffoon, game));
+>>>>>>> Stashed changes
         b2dr = new Box2DDebugRenderer();
         b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);     //Creating world
 
@@ -85,6 +94,10 @@ public class CityScreen extends GameScreen {
             npc.update(delta);
         }
         shaderHandler.update(delta);
+<<<<<<< Updated upstream
+=======
+        //System.out.println(buffoon.getPosition());
+>>>>>>> Stashed changes
         if (HUD.getTime() == 17) game.changeScreen("castle");
     }
 

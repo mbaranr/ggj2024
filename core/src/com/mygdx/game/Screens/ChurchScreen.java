@@ -37,9 +37,13 @@ public class ChurchScreen extends GameScreen {
     private World world;    // World holding all the physical objects
     private Box2DDebugRenderer b2dr;
     private Buffoon buffoon;
+<<<<<<< Updated upstream
     private LinkedList<NPC> npcs;
     private LinkedList<Item> itemList;
     private ShaderHandler shaderHandler;
+=======
+    private ArrayList<Item> itemList;
+>>>>>>> Stashed changes
 
     public ChurchScreen(LOD game, ResourceManager resourceManager, HUD HUD, MyTimer timer) {
 
@@ -49,11 +53,29 @@ public class ChurchScreen extends GameScreen {
         TmxMapLoader mapLoader = new TmxMapLoader();
         TiledMap map = mapLoader.load("TiledMaps/Church/church.tmx");
 
+<<<<<<< Updated upstream
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
         world = new World(new Vector2(0, 0), true);
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
         gameCam.position.set(2, 77, 0);
+=======
+        // World
+        world = new World(new Vector2(0, 0), true);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / Constants.PPM);
+
+        // Buffoon stuff
+        itemList = new ArrayList<>();
+        buffoon = new Buffoon(300, 920, world, resourceManager);
+
+        gameCam = new OrthographicCamera();
+        gamePort = new FitViewport(Constants.TILE_SIZE * 30 / Constants.PPM, Constants.TILE_SIZE * 17 / Constants.PPM, gameCam);
+        gameCam.position.set(2, 77, 0);
+        world.setContactListener(new MyContactListener(itemList, buffoon, game));
+        b2dr = new Box2DDebugRenderer();
+        b2wh = new B2WorldHandler(world, map, resourceManager, timer, game.batch, game);
+    }
+>>>>>>> Stashed changes
 
         itemList = new LinkedList<>();
 
