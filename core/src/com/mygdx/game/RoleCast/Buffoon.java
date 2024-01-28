@@ -201,6 +201,7 @@ public class Buffoon extends B2Sprite {
 
     public void giveItems() {
         king.presentItems(playerItems);
+        playerItems.clear();
     }
 
     public NPC getTargetnpc() {
