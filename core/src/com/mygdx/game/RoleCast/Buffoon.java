@@ -10,7 +10,6 @@ import com.mygdx.game.Tools.ResourceManager;
 import java.util.LinkedList;
 
 public class Buffoon extends B2Sprite {
-
     private LinkedList<Item> playerItems;
     private Constants.ASTATE currAState;     // Current animation state
     private Constants.ASTATE prevAState;     // Previous animation state
