@@ -58,7 +58,44 @@ public class B2WorldHandler {
             fdef.shape = shape;
             fdef.isSensor = true;
             fdef.filter.categoryBits = Constants.BIT_DOOR;
-            body.createFixture(fdef).setUserData("castle-to-city");
+            body.createFixture(fdef).setUserData("castle-entrance");
+        }
+
+
+        for (RectangleMapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Constants.PPM, (rect.getY() + rect.getHeight() / 2) / Constants.PPM);
+            body = world.createBody(bdef);
+            shape.setAsBox((rect.getWidth() / 2) / Constants.PPM, (rect.getHeight() / 2) / Constants.PPM);
+            fdef.shape = shape;
+            fdef.isSensor = true;
+            fdef.filter.categoryBits = Constants.BIT_DOOR;
+            body.createFixture(fdef).setUserData("church-entrance");
+        }
+
+        for (RectangleMapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Constants.PPM, (rect.getY() + rect.getHeight() / 2) / Constants.PPM);
+            body = world.createBody(bdef);
+            shape.setAsBox((rect.getWidth() / 2) / Constants.PPM, (rect.getHeight() / 2) / Constants.PPM);
+            fdef.shape = shape;
+            fdef.isSensor = true;
+            fdef.filter.categoryBits = Constants.BIT_DOOR;
+            body.createFixture(fdef).setUserData("castle-exit");
+        }
+
+        for (RectangleMapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = object.getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Constants.PPM, (rect.getY() + rect.getHeight() / 2) / Constants.PPM);
+            body = world.createBody(bdef);
+            shape.setAsBox((rect.getWidth() / 2) / Constants.PPM, (rect.getHeight() / 2) / Constants.PPM);
+            fdef.shape = shape;
+            fdef.isSensor = true;
+            fdef.filter.categoryBits = Constants.BIT_DOOR;
+            body.createFixture(fdef).setUserData("church-exit");
         }
 
 
