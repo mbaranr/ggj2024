@@ -4,7 +4,7 @@ This is our attempt to develop a game in 48 hours as part of this year's Global 
 
 # Developers
 
-Matias Barandiaran, Gines Moratalla, Mikelis Kanepe, Mustafa Azizi, Junior Imepa, Jeon Jun Ahn. ![queen_picture](https://github.com/m4mbo/ggj2024/assets/115642529/80ffb32f-24a8-4c22-8e6e-50e44f91098e)
+Matias Barandiaran, Gines Moratalla, Mikelis Kanepe, Mustafa Azizi, Junior Saar, Jeon Jun Ahn. ![queen_picture](https://github.com/m4mbo/ggj2024/assets/115642529/80ffb32f-24a8-4c22-8e6e-50e44f91098e)
 
 # Jester's Jest
 
