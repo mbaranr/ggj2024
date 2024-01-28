@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="82">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="91">
  <tileset firstgid="1" source="inchurch.tsx"/>
  <tileset firstgid="2069" source="nun_room.tsx"/>
  <tileset firstgid="3030" source="corner.tsx"/>
@@ -82,6 +82,10 @@
   <object id="79" x="558" y="731" width="15.75" height="10.5"/>
   <object id="80" x="1047.33" y="401.667" width="12" height="11"/>
   <object id="81" x="824" y="653.333"/>
+  <object id="85" x="384" y="752" width="16"/>
+  <object id="86" x="224" y="752" width="16"/>
+  <object id="89" x="704" y="368" width="48"/>
+  <object id="90" x="704" y="416" width="32" height="16"/>
  </objectgroup>
  <objectgroup id="7" name="disapeared">
   <object id="47" x="556" y="464" width="60.6667" height="136"/>
@@ -94,7 +98,11 @@
   <object id="54" x="554.667" y="676.667" width="22" height="68.6667"/>
   <object id="71" x="1046.18" y="369.273" width="15.2727" height="45.0909"/>
  </objectgroup>
- <objectgroup id="9" name="room_door">
-  <object id="45" x="689" y="367.667" width="48.6667" height="47.3333"/>
+ <objectgroup id="11" name="Castle_entrance"/>
+ <objectgroup id="12" name="Church_entrance"/>
+ <objectgroup id="13" name="Castle_exit"/>
+ <objectgroup id="14" name="Church_exit">
+  <object id="82" x="240" y="736" width="144" height="16"/>
  </objectgroup>
+ <objectgroup id="9" name="room_door"/>
 </map>
