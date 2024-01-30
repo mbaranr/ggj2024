@@ -1,4 +1,4 @@
-# GGJ2024
+# GGJ2024.
 
 This is our attempt to develop a game in 48 hours as part of this year's Global Game Jam. We were prompted to stick with the theme: "Make me Laugh". 
 
