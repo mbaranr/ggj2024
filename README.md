@@ -12,7 +12,7 @@ King Chuckles the First, known for his hearty laughter, has fallen into a deep m
 
 ![start-screen](https://github.com/m4mbo/ggj2024/assets/115642529/eec31c7f-8db6-4df8-8903-e8d0baff7793)
 
-# Running Game
+# Build and Run
 - Java 11 or above
 ```
 cd ggj2024
