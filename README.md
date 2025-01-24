@@ -30,7 +30,7 @@ cd scripts
 * [prosk-sudo](https://github.com/prosk-sudo)
 * [kamepe](https://github.com/kamepe)
 * [MuAzi04](https://github.com/MuAzi04)
-* [Jimalda](https://github.com/Jimalda))
+* [Jimalda](https://github.com/Jimalda)
 
 <div align="center">
   <img src="assets/Items/queen_picture.png" alt="demo" width="20"/>
